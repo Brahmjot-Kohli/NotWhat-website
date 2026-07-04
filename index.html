@@ -10,18 +10,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FFFDF5;--fg:#1C1400;--fg-m:rgba(28,20,0,.5);--fg-d:rgba(28,20,0,.24);
-  --acc:#E8A800;--acc-lt:rgba(232,168,0,.09);--acc-ln:rgba(232,168,0,.4);
-  --border:rgba(28,20,0,.08);--bord-hi:rgba(28,20,0,.15);
+  --bg:#FFFDF5;--bg2:#FAF8F0;--fg:#0A0800;
+  --fg-m:rgba(10,8,0,.52);--fg-d:rgba(10,8,0,.28);
+  --acc:#E8A800;--acc2:#F0C040;--acc-lt:rgba(232,168,0,.07);--acc-ln:rgba(232,168,0,.32);
+  --border:rgba(10,8,0,.08);--bord-hi:rgba(10,8,0,.15);
   --font-d:'Cormorant Garamond',Georgia,serif;
   --font-b:'DM Sans',system-ui,sans-serif;
   --tx-xs:clamp(.68rem,.75vw,.74rem);--tx-sm:clamp(.82rem,.95vw,.9rem);
   --tx-base:clamp(.95rem,1.15vw,1.05rem);--tx-lg:clamp(1.1rem,1.7vw,1.32rem);
   --tx-xl:clamp(1.35rem,2.4vw,1.95rem);--tx-2xl:clamp(1.9rem,3.8vw,3.2rem);
-  --tx-3xl:clamp(2.6rem,5.5vw,5rem);--tx-hero:clamp(3.2rem,8.5vw,9rem);
+  --tx-3xl:clamp(2.6rem,5.5vw,5rem);--tx-hero:clamp(3.6rem,9vw,10rem);
   --ease-o:cubic-bezier(.16,1,.3,1);--ease-sp:cubic-bezier(.34,1.56,.64,1);
   --ease-sm:cubic-bezier(.25,.46,.45,.94);
-  --d-f:140ms;--d-b:300ms;--d-s:620ms;--d-sl:1000ms;
+  --d-f:140ms;--d-b:300ms;--d-s:620ms;
   --nav-h:72px;--wrap:1180px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -34,235 +35,258 @@ button{cursor:none;font-family:inherit;border:none;background:none;}
 @media(hover:none){body,button{cursor:auto;}}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem);}
 
+/* GRAIN */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:3;opacity:.028;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;}
+
 /* CANVAS */
-#bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;}
-.page-content{position:relative;z-index:1;}
+#bg-canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.page-content{position:relative;z-index:4;}
 
 /* CURSOR */
-.cur-dot{position:fixed;width:7px;height:7px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s var(--ease-sp),opacity .2s;}
-.cur-ring{position:fixed;width:34px;height:34px;border:1.5px solid var(--acc-ln);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s var(--ease-sm),height .25s var(--ease-sm),border-color .25s;}
-body:has(a:hover,.btn-send:hover) .cur-ring{width:54px;height:54px;border-color:var(--acc);}
-body:has(a:hover,.btn-send:hover) .cur-dot{transform:translate(-50%,-50%) scale(0);}
+.cur-dot{position:fixed;width:7px;height:7px;background:var(--acc);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .12s var(--ease-sp),opacity .2s;}
+.cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--acc-ln);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s var(--ease-sm),height .25s var(--ease-sm),border-color .25s,opacity .2s;}
+body:has(a:hover,button:hover,.tilt-card:hover) .cur-ring{width:56px;height:56px;border-color:var(--acc);}
+body:has(a:hover,button:hover,.tilt-card:hover) .cur-dot{transform:translate(-50%,-50%) scale(0);}
 
 /* REVEAL */
-[data-r]{opacity:0;transform:translateY(18px);transition:opacity var(--d-s) var(--ease-o),transform var(--d-s) var(--ease-o);}
+[data-r]{opacity:0;transform:translateY(20px);transition:opacity var(--d-s) var(--ease-o),transform var(--d-s) var(--ease-o);}
 [data-r].on{opacity:1;transform:none;}
-[data-r][data-d="1"]{transition-delay:70ms;}[data-r][data-d="2"]{transition-delay:140ms;}
-[data-r][data-d="3"]{transition-delay:210ms;}[data-r][data-d="4"]{transition-delay:280ms;}
+[data-r][data-d="1"]{transition-delay:80ms;}[data-r][data-d="2"]{transition-delay:160ms;}
+[data-r][data-d="3"]{transition-delay:240ms;}[data-r][data-d="4"]{transition-delay:320ms;}
 
 /* EYEBROW */
-.ey{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--font-b);font-size:var(--tx-xs);font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--acc);margin-bottom:.9rem;}
-.ey::before{content:'';display:block;width:22px;height:1px;background:var(--acc);flex-shrink:0;}
+.ey{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-b);font-size:var(--tx-xs);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);margin-bottom:1rem;}
+.ey::before{content:'';display:block;width:28px;height:1px;background:var(--acc);flex-shrink:0;}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;transition:background var(--d-b),border-color var(--d-b),box-shadow var(--d-b);border-bottom:1px solid transparent;}
-.nav.on{background:rgba(255,253,245,.94);border-bottom-color:var(--border);box-shadow:0 2px 28px rgba(28,20,0,.06);}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-h);display:flex;align-items:center;transition:background var(--d-b),border-color var(--d-b),box-shadow var(--d-b),backdrop-filter var(--d-b);border-bottom:1px solid transparent;}
+.nav.on{background:rgba(255,253,245,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom-color:var(--border);box-shadow:0 1px 32px rgba(10,8,0,.05);}
 .nav-in{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--wrap);margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem);}
-.nav-logo{display:flex;align-items:center;gap:.6rem;font-family:var(--font-d);font-size:1.45rem;font-weight:500;color:var(--fg);}
-.nav-lm{width:30px;height:30px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-family:var(--font-b);font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;}
-.nav-links{display:flex;align-items:center;gap:2.25rem;}
-.nav-links a{font-size:var(--tx-sm);color:var(--fg-m);transition:color var(--d-f);}
+.nav-logo{display:flex;align-items:center;gap:.6rem;font-family:var(--font-d);font-size:1.5rem;font-weight:500;letter-spacing:-.02em;}
+.nav-lm{width:32px;height:32px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-family:var(--font-b);font-size:.58rem;font-weight:700;letter-spacing:.08em;color:#fff;flex-shrink:0;}
+.nav-links{display:flex;align-items:center;gap:2.5rem;}
+.nav-links a{font-size:var(--tx-sm);color:var(--fg-m);transition:color var(--d-f);font-weight:400;}
 .nav-links a:hover{color:var(--fg);}
-.nav-cta{border:1.5px solid var(--acc)!important;color:var(--acc)!important;padding:.45rem 1.15rem;border-radius:4px;font-weight:500!important;transition:background var(--d-f),color var(--d-f)!important;}
-.nav-cta:hover{background:var(--acc);color:#fff!important;}
-.hbg{display:none;flex-direction:column;gap:5px;padding:6px;z-index:1001;}
+.nav-cta{border:1.5px solid var(--acc-ln)!important;color:var(--acc)!important;padding:.45rem 1.25rem;border-radius:3px;font-weight:500!important;transition:background var(--d-f),color var(--d-f),border-color var(--d-f)!important;}
+.nav-cta:hover{background:var(--acc);color:#fff!important;border-color:var(--acc)!important;}
+.hbg{display:none;flex-direction:column;gap:5px;padding:8px;z-index:1001;}
 .hbg span{display:block;width:22px;height:1.5px;background:var(--fg);border-radius:2px;transition:transform var(--d-b),opacity var(--d-b);}
 .hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
 .hbg.open span:nth-child(2){opacity:0;}
 .hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-.mob-menu{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.25rem;opacity:0;pointer-events:none;transition:opacity var(--d-b);}
+.mob-menu{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;opacity:0;pointer-events:none;transition:opacity var(--d-b);}
 .mob-menu.open{opacity:1;pointer-events:all;}
 .mob-menu a{font-family:var(--font-d);font-size:var(--tx-3xl);font-weight:400;color:var(--fg-m);transition:color var(--d-f);}
 .mob-menu a:hover{color:var(--acc);}
 
 /* HERO */
-#home{min-height:100svh;position:relative;display:flex;align-items:center;overflow:hidden;background:transparent;}
-/* Decorative yellow glow — CSS only, zero JS */
-#home::before{content:'';position:absolute;right:-5%;top:50%;transform:translateY(-50%);width:min(70vw,700px);height:min(70vw,700px);border-radius:50%;background:radial-gradient(circle,rgba(232,168,0,.09) 0%,transparent 70%);pointer-events:none;z-index:0;animation:glowPulse 5s ease-in-out infinite;}
-@keyframes glowPulse{0%,100%{opacity:.7;transform:translateY(-50%) scale(1);}50%{opacity:1;transform:translateY(-50%) scale(1.08);}}
-.hero-content{position:relative;z-index:2;max-width:50%;padding:calc(var(--nav-h)+2.5rem) 0 5rem clamp(1rem,4vw,2.5rem);display:flex;flex-direction:column;align-items:flex-start;gap:1.75rem;}
-.hero-title{font-family:var(--font-d);font-size:var(--tx-hero);font-weight:300;letter-spacing:-.04em;line-height:.9;}
-.hero-title .line{display:block;overflow:hidden;padding-bottom:.06em;}
-.hero-title .word{display:inline-block;opacity:0;transform:translateY(100%);will-change:transform,opacity;}
-.hero-title .word.it{font-style:italic;color:var(--acc);}
-.hero-sub{font-size:var(--tx-lg);color:var(--fg-m);max-width:34ch;line-height:1.6;font-weight:300;opacity:0;transform:translateY(10px);will-change:transform,opacity;}
-.hero-badge{display:inline-flex;align-items:center;gap:.55rem;border:1.5px solid var(--acc-ln);color:var(--acc);font-size:var(--tx-xs);font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.38rem .9rem;border-radius:2px;background:var(--acc-lt);opacity:0;}
-.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--acc);animation:blk 1.8s ease-in-out infinite;}
-@keyframes blk{0%,100%{opacity:1;}50%{opacity:.15;}}
-.app-badge{display:inline-flex;align-items:center;gap:.7rem;border:1px solid var(--border);padding:.7rem 1.3rem;border-radius:6px;opacity:.32;cursor:not-allowed;pointer-events:none;background:rgba(255,255,255,.5);}
-.app-badge svg{width:20px;height:20px;fill:var(--fg);}
-.app-badge .pre{font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-m);}
-.app-badge .mn{font-family:var(--font-d);font-size:1.05rem;font-weight:500;line-height:1;color:var(--fg);}
-.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;opacity:0;animation:sh 1s var(--ease-o) 2s forwards;}
-@keyframes sh{to{opacity:.55;}}
-.scroll-line{width:1px;height:38px;background:linear-gradient(to bottom,var(--acc),transparent);animation:slp 2.2s ease-in-out infinite 2s;}
-@keyframes slp{0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.35);}}
-.scroll-lbl{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-d);}
+#home{min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-wrap{display:flex;align-items:center;width:100%;max-width:var(--wrap);margin:0 auto;padding:0 clamp(1rem,4vw,2.5rem);padding-top:calc(var(--nav-h)+3rem);padding-bottom:5rem;}
+.hero-content{max-width:52%;display:flex;flex-direction:column;align-items:flex-start;gap:2rem;position:relative;z-index:2;}
+.hero-title{font-family:var(--font-d);font-size:var(--tx-hero);font-weight:300;letter-spacing:-.045em;line-height:.88;}
+.hero-title .line{display:block;overflow:hidden;padding-bottom:.08em;}
+.hero-title .word{display:inline-block;opacity:0;transform:translateY(110%);will-change:transform,opacity;}
+.hero-title .it{font-style:italic;color:var(--acc);}
+.hero-rule{width:48px;height:1px;background:var(--acc);opacity:0;transform:scaleX(0);transform-origin:left;will-change:transform,opacity;}
+.hero-sub{font-size:var(--tx-lg);color:var(--fg-m);max-width:38ch;line-height:1.65;font-weight:300;opacity:0;transform:translateY(12px);will-change:transform,opacity;}
+.hero-badge{display:inline-flex;align-items:center;gap:.6rem;border:1.5px solid var(--acc-ln);color:var(--acc);font-size:var(--tx-xs);font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:.42rem 1rem;border-radius:2px;background:var(--acc-lt);opacity:0;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);animation:blk 1.8s ease-in-out infinite;flex-shrink:0;}
+@keyframes blk{0%,100%{opacity:1;}50%{opacity:.12;}}
+.app-badge{display:inline-flex;align-items:center;gap:.75rem;border:1px solid var(--border);padding:.75rem 1.4rem;border-radius:6px;opacity:.3;cursor:not-allowed;pointer-events:none;background:rgba(255,255,255,.5);}
+.app-badge svg{width:22px;height:22px;fill:var(--fg);}
+.app-badge .pre{font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-m);}
+.app-badge .mn{font-family:var(--font-d);font-size:1.1rem;font-weight:500;line-height:1;}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:sfade 1s var(--ease-o) 2.2s forwards;}
+@keyframes sfade{to{opacity:.45;}}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--acc),transparent);animation:slp 2.4s ease-in-out infinite 2.2s;}
+@keyframes slp{0%,100%{transform:scaleY(1);}50%{transform:scaleY(1.4);}}
+.scroll-lbl{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--fg-d);}
 
 /* MARQUEE */
-.mq-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.85rem 0;overflow:hidden;background:rgba(255,250,215,.95);}
-.mq-track{display:inline-flex;white-space:nowrap;animation:mq 28s linear infinite;}
+.mq-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1rem 0;overflow:hidden;background:rgba(255,250,210,.92);}
+.mq-track{display:inline-flex;white-space:nowrap;animation:mq 32s linear infinite;}
 .mq-track:hover{animation-play-state:paused;}
 @keyframes mq{to{transform:translateX(-50%);}}
-.mq-i{font-family:var(--font-d);font-style:italic;font-size:1rem;font-weight:400;color:var(--fg-m);padding:0 2.2rem;display:inline-flex;align-items:center;gap:2rem;}
+.mq-i{font-family:var(--font-d);font-style:italic;font-size:1.05rem;font-weight:400;color:rgba(10,8,0,.5);padding:0 2.5rem;display:inline-flex;align-items:center;gap:2rem;}
 .mq-dot{width:4px;height:4px;border-radius:50%;background:var(--acc);flex-shrink:0;}
 
 /* SECTIONS */
-.sec{padding:clamp(4rem,8vw,8rem) 0;}
-.sec-frosted{background:rgba(255,253,245,.93);}
+.sec{padding:clamp(4.5rem,9vw,9rem) 0;}
+.sec-frosted{background:rgba(255,253,245,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
 .sec-open{background:transparent;}
-.sec-h{font-family:var(--font-d);font-size:var(--tx-3xl);font-weight:400;letter-spacing:-.03em;line-height:1.02;}
-.sec-sub{font-size:var(--tx-base);color:var(--fg-m);max-width:48ch;line-height:1.7;font-weight:300;}
+.sec-h{font-family:var(--font-d);font-size:var(--tx-3xl);font-weight:400;letter-spacing:-.03em;line-height:1.0;}
+.sec-sub{font-size:var(--tx-base);color:var(--fg-m);max-width:48ch;line-height:1.72;font-weight:300;}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:2fr 3fr;gap:clamp(2rem,5vw,6rem);align-items:start;}
-.about-sticky{position:sticky;top:calc(var(--nav-h)+1.5rem);}
-.about-body p{color:var(--fg-m);line-height:1.82;margin-bottom:1.4rem;font-weight:300;}
+.about-grid{display:grid;grid-template-columns:2fr 3fr;gap:clamp(2.5rem,6vw,7rem);align-items:start;}
+.about-sticky{position:sticky;top:calc(var(--nav-h)+2rem);}
+.about-body p{color:var(--fg-m);line-height:1.85;margin-bottom:1.5rem;font-weight:300;}
 .about-body strong{color:var(--fg);font-weight:500;}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:2.5rem;border:1px solid var(--border);}
-.stat{padding:1.5rem 1rem;background:rgba(255,255,255,.75);text-align:center;transition:background var(--d-b),transform var(--d-b) var(--ease-sp);}
-.stat:hover{background:#fff;transform:translateY(-3px);}
-.stat-n{font-family:var(--font-d);font-size:var(--tx-2xl);font-weight:500;color:var(--acc);letter-spacing:-.04em;line-height:1;margin-bottom:.25rem;}
-.stat-l{font-size:var(--tx-xs);color:var(--fg-d);letter-spacing:.12em;text-transform:uppercase;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:3rem;border:1px solid var(--border);overflow:hidden;}
+.stat{padding:1.75rem 1rem;background:rgba(255,255,255,.6);text-align:center;transition:background var(--d-b);position:relative;}
+.stat::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border);}
+.stat:last-child::after{display:none;}
+.stat:hover{background:rgba(255,255,255,.95);}
+.stat-n{font-family:var(--font-d);font-size:var(--tx-2xl);font-weight:500;color:var(--acc);letter-spacing:-.04em;line-height:1;margin-bottom:.3rem;}
+.stat-l{font-size:var(--tx-xs);color:var(--fg-d);letter-spacing:.14em;text-transform:uppercase;}
 
 /* HOW IT WORKS */
-.hiw-intro{max-width:50ch;margin-bottom:4rem;}
-.hiw-cols{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--border);}
-.hiw-col{padding:clamp(1.5rem,3vw,2.5rem);background:rgba(255,255,255,.75);}
-.hiw-col-head{display:flex;align-items:center;gap:.85rem;margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}
+.hiw-intro{max-width:52ch;margin-bottom:4.5rem;}
+.hiw-cols{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);}
+.hiw-col{padding:clamp(1.75rem,3.5vw,3rem);}
+.hiw-col:first-child{border-right:1px solid var(--border);}
+.hiw-col-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
 .hiw-col-head h3{font-size:var(--tx-xl);font-weight:400;}
-.hiw-lbl{font-size:var(--tx-xs);font-weight:500;letter-spacing:.11em;text-transform:uppercase;color:var(--acc);border:1.5px solid var(--acc-ln);padding:.2rem .6rem;border-radius:2px;background:var(--acc-lt);white-space:nowrap;}
-.steps{display:flex;flex-direction:column;gap:.6rem;}
-.step{display:flex;gap:1.1rem;align-items:flex-start;padding:1.1rem;border:1px solid transparent;border-radius:4px;transition:border-color var(--d-b),background var(--d-b),transform var(--d-b) var(--ease-sp);}
-.step:hover{border-color:var(--acc-ln);background:rgba(255,255,255,.9);transform:translateX(4px);}
-.step-n{font-family:var(--font-d);font-size:1.55rem;font-weight:300;color:rgba(232,168,0,.35);min-width:2rem;line-height:1;flex-shrink:0;}
-.step h4{font-family:var(--font-d);font-size:1.1rem;font-weight:500;margin-bottom:.25rem;}
-.step p{font-size:var(--tx-sm);color:var(--fg-m);line-height:1.62;font-weight:300;}
+.hiw-lbl{font-size:var(--tx-xs);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);border:1.5px solid var(--acc-ln);padding:.22rem .65rem;border-radius:2px;background:var(--acc-lt);}
+.steps{display:flex;flex-direction:column;gap:.5rem;}
+.step{display:flex;gap:1.25rem;align-items:flex-start;padding:1.25rem;border:1px solid transparent;border-radius:3px;transition:border-color var(--d-b),background var(--d-b),transform var(--d-b) var(--ease-sp);}
+.step:hover{border-color:var(--acc-ln);background:rgba(255,255,255,.85);transform:translateX(5px);}
+.step-n{font-family:var(--font-d);font-size:1.7rem;font-weight:300;color:rgba(232,168,0,.3);min-width:2.2rem;line-height:1;flex-shrink:0;}
+.step h4{font-family:var(--font-d);font-size:1.15rem;font-weight:500;margin-bottom:.3rem;}
+.step p{font-size:var(--tx-sm);color:var(--fg-m);line-height:1.65;font-weight:300;}
 
 /* FEATURES */
-.feat-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;margin-bottom:3.5rem;flex-wrap:wrap;}
-.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;border:1px solid var(--border);}
-.feat-card{background:rgba(255,255,255,.75);overflow:hidden;position:relative;transition:background var(--d-b),transform var(--d-b) var(--ease-sp);}
-.feat-card::before{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--acc);transition:width .4s var(--ease-o);z-index:1;}
-.feat-card:hover{background:#fff;transform:translateY(-2px);}
-.feat-card:hover::before{width:100%;}
-.feat-ss{height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);background:rgba(232,168,0,.06);}
-.feat-ss::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(55deg,transparent,transparent 18px,rgba(232,168,0,.04) 18px,rgba(232,168,0,.04) 19px);}
-.feat-ss-n{font-family:var(--font-d);font-size:3.2rem;font-weight:300;color:rgba(232,168,0,.22);line-height:1;position:relative;letter-spacing:-.04em;}
-.feat-ss-lbl{font-size:var(--tx-xs);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-d);position:relative;}
-.feat-ss-sub{font-size:.66rem;color:var(--fg-d);position:relative;text-align:center;padding:0 1.25rem;line-height:1.5;}
-.feat-body{padding:1.5rem 1.75rem;}
-.feat-body h3{font-family:var(--font-d);font-size:1.3rem;font-weight:500;margin-bottom:.4rem;}
-.feat-body p{font-size:var(--tx-sm);color:var(--fg-m);line-height:1.68;font-weight:300;}
+.feat-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:4rem;flex-wrap:wrap;}
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);border:1px solid var(--border);}
+.feat-card{background:rgba(255,255,255,.65);overflow:hidden;position:relative;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background var(--d-b);}
+.feat-card:nth-child(2n){border-right:none;}
+.feat-card:nth-last-child(-n+2){border-bottom:none;}
+.feat-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .5s var(--ease-o);}
+.feat-card:hover{background:rgba(255,255,255,.92);}
+.feat-card:hover::after{width:100%;}
+.feat-vis{height:200px;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+/* Card visual patterns */
+.feat-card:nth-child(1) .feat-vis{background:radial-gradient(ellipse at 50% 60%,rgba(232,168,0,.18) 0%,rgba(232,168,0,.04) 55%,transparent 80%),repeating-conic-gradient(rgba(232,168,0,.04) 0deg 10deg,transparent 10deg 20deg);}
+.feat-card:nth-child(2) .feat-vis{background:linear-gradient(135deg,rgba(232,168,0,.12) 0%,transparent 40%,rgba(240,192,64,.08) 100%),repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(232,168,0,.07) 14px,rgba(232,168,0,.07) 15px);}
+.feat-card:nth-child(3) .feat-vis{background:radial-gradient(circle at 30% 70%,rgba(232,168,0,.15),transparent 50%),radial-gradient(circle at 75% 25%,rgba(240,192,64,.12),transparent 45%),repeating-linear-gradient(60deg,transparent,transparent 20px,rgba(232,168,0,.05) 20px,rgba(232,168,0,.05) 21px);}
+.feat-card:nth-child(4) .feat-vis{background:linear-gradient(to bottom right,rgba(255,253,245,1),rgba(232,168,0,.08)),repeating-radial-gradient(circle at 50% 50%,transparent 20px,rgba(232,168,0,.06) 21px,transparent 22px);}
+.feat-vis-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;}
+.feat-vis-n{font-family:var(--font-d);font-size:3.8rem;font-weight:300;color:rgba(232,168,0,.2);line-height:1;letter-spacing:-.06em;}
+.feat-vis-lbl{font-size:var(--tx-xs);font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--fg-d);}
+.feat-body{padding:1.75rem 2rem;}
+.feat-body h3{font-family:var(--font-d);font-size:1.4rem;font-weight:500;margin-bottom:.45rem;}
+.feat-body p{font-size:var(--tx-sm);color:var(--fg-m);line-height:1.7;font-weight:300;}
+
+/* seller card patterns */
+.seller-grid .feat-card:nth-child(1) .feat-vis{background:radial-gradient(ellipse at 50% 50%,rgba(232,168,0,.14) 0%,transparent 65%),repeating-linear-gradient(0deg,transparent,transparent 22px,rgba(232,168,0,.05) 22px,rgba(232,168,0,.05) 23px),repeating-linear-gradient(90deg,transparent,transparent 22px,rgba(232,168,0,.05) 22px,rgba(232,168,0,.05) 23px);}
+.seller-grid .feat-card:nth-child(2) .feat-vis{background:linear-gradient(160deg,rgba(232,168,0,.1),transparent 50%),repeating-conic-gradient(rgba(232,168,0,.06) 0deg 45deg,transparent 45deg 90deg) 0 0 / 28px 28px;}
+.seller-grid .feat-card:nth-child(3) .feat-vis{background:radial-gradient(circle at 50% 40%,rgba(232,168,0,.2) 0%,rgba(232,168,0,.06) 40%,transparent 70%),repeating-linear-gradient(45deg,rgba(232,168,0,.04) 0px,rgba(232,168,0,.04) 1px,transparent 1px,transparent 16px);}
+.seller-grid .feat-card:nth-child(4) .feat-vis{background:linear-gradient(to bottom,rgba(232,168,0,.08),transparent),repeating-linear-gradient(-60deg,transparent,transparent 18px,rgba(232,168,0,.06) 18px,rgba(232,168,0,.06) 19px);}
+
+/* vis icons */
+.feat-vis-icon{width:44px;height:44px;opacity:.35;}
 
 /* GALLERY */
 .gallery-outer{border:1px solid var(--border);overflow:hidden;}
-.gallery{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;}
+.gallery{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;background:var(--border);}
 .gallery:active{cursor:grabbing;}
 .gallery::-webkit-scrollbar{display:none;}
-.pf{flex-shrink:0;width:clamp(160px,22vw,220px);height:clamp(320px,45vw,440px);background:rgba(255,255,255,.75);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;scroll-snap-align:start;position:relative;overflow:hidden;transition:background var(--d-b);}
-.pf:last-child{border-right:none;}
-.pf::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:48px;height:7px;background:var(--border);border-radius:6px;}
-.pf::after{content:'';position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:32px;height:4px;background:var(--border);border-radius:6px;}
-.pf:hover{background:#fff;}
-.pf-n{font-family:var(--font-d);font-size:2.5rem;font-weight:300;color:rgba(232,168,0,.28);letter-spacing:-.04em;line-height:1;}
-.pf-lbl{font-size:var(--tx-xs);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-d);}
-.pf-sub{font-size:.63rem;color:var(--fg-d);text-align:center;padding:0 .8rem;line-height:1.5;}
+.phone-frame{flex-shrink:0;width:clamp(160px,20vw,200px);height:clamp(340px,48vw,420px);scroll-snap-align:start;background:rgba(255,255,255,.8);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:32px;transition:background var(--d-b);}
+.phone-frame:hover{background:#fff;}
+.phone-frame::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:52px;height:8px;background:rgba(10,8,0,.1);border-radius:8px;z-index:1;}
+.phone-frame-screen{width:78%;flex:1;margin-bottom:20px;border-radius:4px;overflow:hidden;position:relative;}
+.phone-frame-screen-bg{position:absolute;inset:0;}
+.phone-frame:nth-child(1) .phone-frame-screen-bg{background:linear-gradient(160deg,rgba(232,168,0,.18) 0%,rgba(255,253,245,.8) 60%),repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(232,168,0,.05) 12px,rgba(232,168,0,.05) 13px);}
+.phone-frame:nth-child(2) .phone-frame-screen-bg{background:linear-gradient(to bottom,#1A0E02,#2C1A05);opacity:.85;}
+.phone-frame:nth-child(3) .phone-frame-screen-bg{background:radial-gradient(ellipse at 50% 30%,rgba(232,168,0,.22),rgba(255,253,245,.9) 65%);}
+.phone-frame:nth-child(4) .phone-frame-screen-bg{background:linear-gradient(135deg,rgba(232,168,0,.12),rgba(255,253,245,.95));}
+.phone-frame:nth-child(5) .phone-frame-screen-bg{background:linear-gradient(to bottom,rgba(10,8,0,.04),rgba(232,168,0,.08));}
+.phone-frame::after{content:'';position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:36px;height:4px;background:rgba(10,8,0,.12);border-radius:4px;}
+.phone-lbl{font-size:var(--tx-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--fg-d);font-weight:500;text-align:center;position:absolute;bottom:32px;left:0;right:0;}
 
 /* CONTACT */
-.contact-grid{display:grid;grid-template-columns:3fr 2fr;gap:clamp(2rem,5vw,6rem);align-items:start;}
-.contact-form{display:flex;flex-direction:column;gap:1.35rem;}
+.contact-grid{display:grid;grid-template-columns:3fr 2fr;gap:clamp(2rem,6vw,7rem);align-items:start;}
+.contact-form{display:flex;flex-direction:column;gap:1.5rem;}
 .fg{display:flex;flex-direction:column;gap:.4rem;}
-.fg label{font-size:var(--tx-xs);font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-m);}
-.fg input,.fg textarea{background:transparent;border:none;border-bottom:1px solid var(--border);padding:.7rem 0;font-family:var(--font-b);font-size:var(--tx-base);color:var(--fg);outline:none;width:100%;transition:border-color var(--d-f);caret-color:var(--acc);}
+.fg label{font-size:var(--tx-xs);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-d);}
+.fg input,.fg textarea{background:transparent;border:none;border-bottom:1px solid var(--border);padding:.75rem 0;font-family:var(--font-b);font-size:var(--tx-base);color:var(--fg);outline:none;width:100%;transition:border-color var(--d-f);caret-color:var(--acc);}
 .fg input::placeholder,.fg textarea::placeholder{color:var(--fg-d);}
 .fg input:focus,.fg textarea:focus{border-bottom-color:var(--acc);}
 .fg textarea{resize:none;height:110px;}
-.btn-send{align-self:flex-start;display:inline-flex;align-items:center;gap:.65rem;border:1.5px solid var(--acc);color:var(--acc);padding:.8rem 1.85rem;border-radius:3px;font-family:var(--font-b);font-size:var(--tx-sm);font-weight:500;letter-spacing:.04em;transition:background var(--d-f),color var(--d-f),transform var(--d-f) var(--ease-sp);background:transparent;}
+.btn-send{align-self:flex-start;display:inline-flex;align-items:center;gap:.7rem;border:1.5px solid var(--acc);color:var(--acc);padding:.85rem 2rem;border-radius:2px;font-family:var(--font-b);font-size:var(--tx-sm);font-weight:600;letter-spacing:.05em;transition:background var(--d-f),color var(--d-f),transform var(--d-f) var(--ease-sp);background:transparent;}
 .btn-send:hover{background:var(--acc);color:#fff;transform:translateY(-2px);}
 .btn-send:active{transform:scale(.97);}
 .btn-send svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform var(--d-f) var(--ease-sp);}
 .btn-send:hover svg{transform:translate(2px,-2px);}
-.contact-aside{display:flex;flex-direction:column;gap:2rem;}
-.contact-aside h3{font-size:var(--tx-xl);font-weight:400;}
-.ci{display:flex;flex-direction:column;gap:.25rem;}
-.ci-l{font-size:var(--tx-xs);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-d);}
+.contact-aside{display:flex;flex-direction:column;gap:2.5rem;}
+.contact-aside h3{font-family:var(--font-d);font-size:var(--tx-xl);font-weight:400;}
+.ci{display:flex;flex-direction:column;gap:.3rem;}
+.ci-l{font-size:var(--tx-xs);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-d);}
 .ci a{font-size:var(--tx-sm);color:var(--acc);transition:opacity var(--d-f);}
-.ci a:hover{opacity:.65;}
+.ci a:hover{opacity:.6;}
 .ci span{font-size:var(--tx-sm);color:var(--fg-m);}
 
 /* LEGAL */
 .legal-sec{padding:4rem 0;border-top:1px solid var(--border);}
-.legal-warn{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--acc-ln);color:var(--acc);padding:.45rem .9rem;border-radius:3px;margin-bottom:2rem;font-size:var(--tx-xs);font-weight:500;letter-spacing:.05em;}
+.legal-warn{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--acc-ln);color:var(--acc);padding:.45rem .9rem;border-radius:2px;margin-bottom:2rem;font-size:var(--tx-xs);font-weight:600;letter-spacing:.05em;}
 .legal-warn::before{content:'!';font-weight:700;}
-.legal-body{max-width:64ch;}
-.legal-body h3{font-size:var(--tx-lg);font-weight:500;margin-top:2rem;margin-bottom:.6rem;}
-.legal-body p{font-size:var(--tx-sm);color:var(--fg-m);line-height:1.78;margin-bottom:.6rem;font-weight:300;}
-.legal-body ul{list-style:none;padding:0;margin-bottom:.6rem;}
-.legal-body li{font-size:var(--tx-sm);color:var(--fg-m);padding:.3rem 0 .3rem 1.1rem;position:relative;line-height:1.62;font-weight:300;}
-.legal-body li::before{content:'';position:absolute;left:0;top:.72rem;width:5px;height:1px;background:var(--acc);}
+.legal-body{max-width:66ch;}
+.legal-body h3{font-family:var(--font-d);font-size:var(--tx-lg);font-weight:500;margin-top:2.2rem;margin-bottom:.65rem;}
+.legal-body p{font-size:var(--tx-sm);color:var(--fg-m);line-height:1.8;margin-bottom:.65rem;font-weight:300;}
+.legal-body ul{list-style:none;padding:0;margin-bottom:.65rem;}
+.legal-body li{font-size:var(--tx-sm);color:var(--fg-m);padding:.3rem 0 .3rem 1.1rem;position:relative;line-height:1.65;font-weight:300;}
+.legal-body li::before{content:'';position:absolute;left:0;top:.75rem;width:5px;height:1px;background:var(--acc);}
 
 /* FOOTER */
-footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);padding:clamp(3rem,6vw,5rem) 0 2rem;}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:clamp(1.5rem,4vw,4rem);margin-bottom:3.5rem;}
-.footer-brand{display:flex;flex-direction:column;gap:1.25rem;}
-.footer-logo{display:flex;align-items:center;gap:.55rem;font-family:var(--font-d);font-size:1.3rem;font-weight:500;}
-.footer-lm{width:26px;height:26px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-family:var(--font-b);font-size:.58rem;font-weight:700;color:#fff;flex-shrink:0;}
-.footer-brand p{font-size:var(--tx-sm);color:var(--fg-d);max-width:27ch;line-height:1.68;font-weight:300;}
+footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);padding:clamp(3.5rem,7vw,6rem) 0 2.5rem;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:clamp(1.5rem,4vw,4rem);margin-bottom:4rem;}
+.footer-brand{display:flex;flex-direction:column;gap:1.35rem;}
+.footer-logo{display:flex;align-items:center;gap:.6rem;font-family:var(--font-d);font-size:1.4rem;font-weight:500;}
+.footer-lm{width:28px;height:28px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-family:var(--font-b);font-size:.58rem;font-weight:700;letter-spacing:.08em;color:#fff;flex-shrink:0;}
+.footer-brand p{font-size:var(--tx-sm);color:var(--fg-d);max-width:28ch;line-height:1.7;font-weight:300;}
 .footer-mail{font-size:var(--tx-sm);color:var(--acc);transition:opacity var(--d-f);}
-.footer-mail:hover{opacity:.65;}
-.footer-col h4{font-family:var(--font-b);font-size:var(--tx-xs);font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--fg-d);margin-bottom:1.25rem;}
-.footer-col ul{display:flex;flex-direction:column;gap:.6rem;}
+.footer-mail:hover{opacity:.6;}
+.footer-col h4{font-family:var(--font-b);font-size:var(--tx-xs);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-d);margin-bottom:1.4rem;}
+.footer-col ul{display:flex;flex-direction:column;gap:.65rem;}
 .footer-col a{font-size:var(--tx-sm);color:var(--fg-m);transition:color var(--d-f);}
 .footer-col a:hover{color:var(--acc);}
-.footer-div{border:none;border-top:1px solid var(--border);margin-bottom:1.75rem;}
+hr.footer-div{border:none;border-top:1px solid var(--border);margin-bottom:2rem;}
 .footer-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
 .footer-bot p{font-size:var(--tx-xs);color:var(--fg-d);}
 
+/* DIVIDER */
+.gold-line{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--acc-ln),transparent);margin:0;}
+
 /* RESPONSIVE */
 @media(max-width:960px){
-  .nav-links{display:none;}
-  .hbg{display:flex;}
-  #home{align-items:flex-end;min-height:100svh;}
-  .hero-content{
-    max-width:100%;
-    padding:var(--nav-h) clamp(1rem,4vw,1.5rem) clamp(2.5rem,6vw,4rem);
-    align-items:center;text-align:center;
-    background:linear-gradient(to top,rgba(255,253,245,.97) 55%,rgba(255,253,245,.6) 80%,transparent 100%);
-    width:100%;
-  }
-  .hero-sub{max-width:44ch;}
-  .about-grid{grid-template-columns:1fr;gap:2.5rem;}
-  .about-sticky{position:static;}
-  .hiw-cols{grid-template-columns:1fr;}
-  .feat-grid{grid-template-columns:1fr;}
-  .contact-grid{grid-template-columns:1fr;gap:2.5rem;}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
-  .sec{padding:clamp(3rem,6vw,5rem) 0;}
+  .nav-links{display:none;}.hbg{display:flex;}
+  #home{align-items:flex-end;}
+  .hero-wrap{padding-top:var(--nav-h);padding-bottom:clamp(2.5rem,6vw,4rem);align-items:flex-end;}
+  .hero-content{max-width:100%;align-items:center;text-align:center;background:linear-gradient(to top,rgba(255,253,245,.97) 50%,rgba(255,253,245,.7) 80%,transparent);padding-top:2rem;width:100%;}
+  .hero-rule{align-self:center;}
+  .hero-sub{max-width:46ch;}
+  .about-grid{grid-template-columns:1fr;gap:3rem;}.about-sticky{position:static;}
+  .hiw-cols{grid-template-columns:1fr;}.hiw-col:first-child{border-right:none;border-bottom:1px solid var(--border);}
+  .feat-grid{grid-template-columns:1fr;}.feat-card{border-right:none!important;}.feat-card:nth-last-child(-n+2){border-bottom:1px solid var(--border)!important;}.feat-card:last-child{border-bottom:none!important;}
+  .contact-grid{grid-template-columns:1fr;gap:3rem;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem;}
   .feat-intro{flex-direction:column;align-items:flex-start;}
 }
 @media(max-width:640px){
   :root{--nav-h:62px;}
-  .footer-grid{grid-template-columns:1fr;}
-  .footer-bot{flex-direction:column;align-items:flex-start;}
-  .hiw-col{padding:1.35rem;}
+  .footer-grid{grid-template-columns:1fr;}.footer-bot{flex-direction:column;align-items:flex-start;}
   .stats{grid-template-columns:repeat(3,1fr);}
+  .hiw-col{padding:1.5rem;}
 }
-@media(min-width:1400px){
-  :root{--wrap:1300px;}
-}
+@media(min-width:1400px){:root{--wrap:1300px;}}
 </style>
 </head>
 <body>
 
 <canvas id="bg-canvas"></canvas>
+
 <div class="cur-dot" id="cd"></div>
 <div class="cur-ring" id="cr"></div>
 
 <div class="page-content">
+
 <nav class="nav" id="nav">
   <div class="nav-in">
-    <a href="#home" class="nav-logo"><div class="nav-lm">NW</div>NotWhat</a>
+    <a href="#home" class="nav-logo">
+      <div class="nav-lm">NW</div>NotWhat
+    </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#how-it-works">How It Works</a></li>
@@ -271,7 +295,9 @@ footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);paddi
       <li><a href="#screenshots">App</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
-    <button class="hbg" id="hbg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="hbg" id="hbg" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
@@ -285,25 +311,31 @@ footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);paddi
 </div>
 
 <section id="home">
-  <div class="hero-content">
-    <h1 class="hero-title" id="htitle">
-      <span class="line"><span class="word" style="transition-delay:60ms">Discover</span></span>
-      <span class="line"><span class="word it" style="transition-delay:200ms">Regional</span></span>
-      <span class="line"><span class="word" style="transition-delay:340ms">Fashion</span></span>
-    </h1>
-    <p class="hero-sub" id="hsub">Shop authentic Indian garments through shoppable video reels, directly from regional artisans across India.</p>
-    <div class="hero-badge" id="hbadge">Coming Soon on iOS</div>
-    <div class="app-badge">
-      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-      <div><div class="pre">Download on the</div><div class="mn">App Store</div></div>
+  <div class="hero-wrap">
+    <div class="hero-content">
+      <h1 class="hero-title" id="htitle">
+        <span class="line"><span class="word">Discover</span></span>
+        <span class="line"><span class="word it">Regional</span></span>
+        <span class="line"><span class="word">Fashion</span></span>
+      </h1>
+      <div class="hero-rule" id="hrule"></div>
+      <p class="hero-sub" id="hsub">Shop authentic Indian garments through shoppable video reels, directly from regional artisans across India.</p>
+      <div class="hero-badge" id="hbadge"><span class="hero-badge-dot"></span>Coming Soon on iOS</div>
+      <div class="app-badge" aria-disabled="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        <div><div class="pre">Download on the</div><div class="mn">App Store</div></div>
+      </div>
     </div>
   </div>
-  <div class="scroll-hint"><span class="scroll-lbl">Scroll</span><div class="scroll-line"></div></div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="scroll-lbl">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
-<div class="mq-strip">
-  <div class="mq-track" aria-hidden="true">
-    <span class="mq-i">Regional Fashion <span class="mq-dot"></span></span><span class="mq-i">Shoppable Reels <span class="mq-dot"></span></span><span class="mq-i">India's Artisans <span class="mq-dot"></span></span><span class="mq-i">Discover <span class="mq-dot"></span></span><span class="mq-i">Buy Direct <span class="mq-dot"></span></span><span class="mq-i">Regional Fashion <span class="mq-dot"></span></span><span class="mq-i">Shoppable Reels <span class="mq-dot"></span></span><span class="mq-i">India's Artisans <span class="mq-dot"></span></span><span class="mq-i">Discover <span class="mq-dot"></span></span><span class="mq-i">Buy Direct <span class="mq-dot"></span></span><span class="mq-i">Regional Fashion <span class="mq-dot"></span></span><span class="mq-i">Shoppable Reels <span class="mq-dot"></span></span><span class="mq-i">India's Artisans <span class="mq-dot"></span></span><span class="mq-i">Discover <span class="mq-dot"></span></span><span class="mq-i">Buy Direct <span class="mq-dot"></span></span><span class="mq-i">Regional Fashion <span class="mq-dot"></span></span><span class="mq-i">Shoppable Reels <span class="mq-dot"></span></span><span class="mq-i">India's Artisans <span class="mq-dot"></span></span><span class="mq-i">Discover <span class="mq-dot"></span></span><span class="mq-i">Buy Direct <span class="mq-dot"></span></span>
+<div class="mq-strip" aria-hidden="true">
+  <div class="mq-track">
+    <span class="mq-i">Regional Fashion <span class="mq-dot"></span></span><span class="mq-i">Shoppable Reels <span class="mq-dot"></span></span><span class="mq-i">India's Artisans <span class="mq-dot"></span></span><span class="mq-i">Discover <span class="mq-dot"></span></span><span class="mq-i">Buy Direct <span class="mq-dot"></span></span><span class="mq-i">Block Print <span class="mq-dot"></span></span><span class="mq-i">Silk Weaves <span class="mq-dot"></span></span><span class="mq-i">Mirror Work <span class="mq-dot"></span></span><span class="mq-i">Regional Fashion <span class="mq-dot"></span></span><span class="mq-i">Shoppable Reels <span class="mq-dot"></span></span><span class="mq-i">India's Artisans <span class="mq-dot"></span></span><span class="mq-i">Discover <span class="mq-dot"></span></span><span class="mq-i">Buy Direct <span class="mq-dot"></span></span><span class="mq-i">Block Print <span class="mq-dot"></span></span><span class="mq-i">Silk Weaves <span class="mq-dot"></span></span><span class="mq-i">Mirror Work <span class="mq-dot"></span></span>
   </div>
 </div>
 
@@ -311,7 +343,10 @@ footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);paddi
   <div class="wrap">
     <div class="about-grid">
       <div class="about-sticky">
-        <div data-r><span class="ey">About NotWhat</span><h2 class="sec-h">India's Regional Fashion, Finally Discoverable</h2></div>
+        <div data-r>
+          <span class="ey">About NotWhat</span>
+          <h2 class="sec-h">India's Regional Fashion,<br><em>Finally Discoverable</em></h2>
+        </div>
         <div class="stats" data-r data-d="2">
           <div class="stat"><div class="stat-n" data-count="600" data-suffix="+">0</div><div class="stat-l">Districts</div></div>
           <div class="stat"><div class="stat-n" data-count="29">0</div><div class="stat-l">States</div></div>
@@ -327,87 +362,226 @@ footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);paddi
   </div>
 </section>
 
+<div class="gold-line"></div>
+
 <section id="how-it-works" class="sec sec-open">
   <div class="wrap">
-    <div class="hiw-intro" data-r><span class="ey">How It Works</span><h2 class="sec-h">Simple for buyers.<br><em>Powerful</em> for sellers.</h2></div>
+    <div class="hiw-intro" data-r>
+      <span class="ey">How It Works</span>
+      <h2 class="sec-h">Simple for buyers.<br><em>Powerful</em> for sellers.</h2>
+    </div>
     <div class="hiw-cols">
       <div class="hiw-col">
-        <div class="hiw-col-head" data-r><h3>For Buyers</h3><span class="hiw-lbl">Buyers</span></div>
+        <div class="hiw-col-head" data-r>
+          <h3>For Buyers</h3><span class="hiw-lbl">Buyers</span>
+        </div>
         <div class="steps">
-          <div class="step" data-r data-d="1"><div class="step-n">01</div><div><h4>Browse Your Feed</h4><p>A personalised reel feed curated around your style preferences, region, and past saves. New regional sellers surface every time you scroll.</p></div></div>
-          <div class="step" data-r data-d="2"><div class="step-n">02</div><div><h4>Tap to Shop</h4><p>See something you love? Tap the product overlay on any reel to view full details, sizing, fabric, and seller reviews without leaving the video.</p></div></div>
-          <div class="step" data-r data-d="3"><div class="step-n">03</div><div><h4>Checkout in Seconds</h4><p>Save your address and payment once, check out in a single tap. Track your order from dispatch to doorstep, directly in the app.</p></div></div>
+          <div class="step tilt-card" data-r data-d="1">
+            <div class="step-n">01</div>
+            <div><h4>Browse Your Feed</h4><p>A personalised reel feed curated around your style preferences, region, and past saves. New regional sellers surface every time you scroll.</p></div>
+          </div>
+          <div class="step tilt-card" data-r data-d="2">
+            <div class="step-n">02</div>
+            <div><h4>Tap to Shop</h4><p>See something you love? Tap the product overlay on any reel to view full details, sizing, fabric, and seller reviews without leaving the video.</p></div>
+          </div>
+          <div class="step tilt-card" data-r data-d="3">
+            <div class="step-n">03</div>
+            <div><h4>Checkout in Seconds</h4><p>Save your address and payment once, check out in a single tap. Track your order from dispatch to doorstep, directly in the app.</p></div>
+          </div>
         </div>
       </div>
       <div class="hiw-col">
-        <div class="hiw-col-head" data-r><h3>For Sellers</h3><span class="hiw-lbl">Sellers</span></div>
+        <div class="hiw-col-head" data-r>
+          <h3>For Sellers</h3><span class="hiw-lbl">Sellers</span>
+        </div>
         <div class="steps">
-          <div class="step" data-r data-d="1"><div class="step-n">01</div><div><h4>Create Your Storefront</h4><p>Set up your regional boutique profile with your location, specialty crafts, and brand story. No design skills needed.</p></div></div>
-          <div class="step" data-r data-d="2"><div class="step-n">02</div><div><h4>Upload Shoppable Reels</h4><p>Record a short video showing your product being worn or styled. Tag items, set prices, publish. Your reel reaches buyers across India instantly.</p></div></div>
-          <div class="step" data-r data-d="3"><div class="step-n">03</div><div><h4>Manage Orders and Grow</h4><p>Receive orders, manage inventory through your seller dashboard, and track revenue analytics to understand what your audience loves most.</p></div></div>
+          <div class="step tilt-card" data-r data-d="1">
+            <div class="step-n">01</div>
+            <div><h4>Create Your Storefront</h4><p>Set up your regional boutique profile with your location, specialty crafts, and brand story. No design skills needed.</p></div>
+          </div>
+          <div class="step tilt-card" data-r data-d="2">
+            <div class="step-n">02</div>
+            <div><h4>Upload Shoppable Reels</h4><p>Record a short video showing your product being worn or styled. Tag items, set prices, publish. Your reel reaches buyers across India instantly.</p></div>
+          </div>
+          <div class="step tilt-card" data-r data-d="3">
+            <div class="step-n">03</div>
+            <div><h4>Manage Orders and Grow</h4><p>Receive orders, manage inventory through your seller dashboard, and track revenue analytics to understand what your audience loves most.</p></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<div class="gold-line"></div>
 
 <section id="buyer" class="sec sec-frosted">
   <div class="wrap">
-    <div class="feat-intro"><div><span class="ey" data-r>Buyer Experience</span><h2 class="sec-h" data-r>Shopping that feels<br><em>like scrolling.</em></h2></div><p class="sec-sub" data-r>NotWhat turns discovery into purchase in one fluid experience.</p></div>
-    <div class="feat-grid">
-      <div class="feat-card" data-r><div class="feat-ss"><div class="feat-ss-n">01</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Home Discovery Feed</div></div><div class="feat-body"><h3>Browse and Discover</h3><p>A curated feed of regional fashion reels personalised to your taste. The more you engage, the sharper your feed gets.</p></div></div>
-      <div class="feat-card" data-r data-d="1"><div class="feat-ss"><div class="feat-ss-n">02</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Shoppable Reel Playback</div></div><div class="feat-body"><h3>Shoppable Reels</h3><p>Watch a seller style their garment, tap the price overlay to add to cart, all without pausing the video.</p></div></div>
-      <div class="feat-card" data-r data-d="2"><div class="feat-ss"><div class="feat-ss-n">03</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Bargain Days Sale Screen</div></div><div class="feat-body"><h3>Bargain Days</h3><p>Flash sales and limited-time deals from regional sellers in a dedicated tab. Real discounts, never manufactured urgency.</p></div></div>
-      <div class="feat-card" data-r data-d="3"><div class="feat-ss"><div class="feat-ss-n">04</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Checkout Confirmation</div></div><div class="feat-body"><h3>Easy Checkout</h3><p>One address, one payment method, one tap. Secure processing and a tracking link the moment your order ships.</p></div></div>
+    <div class="feat-intro">
+      <div>
+        <span class="ey" data-r>Buyer Experience</span>
+        <h2 class="sec-h" data-r>Shopping that feels<br><em>like scrolling.</em></h2>
+      </div>
+      <p class="sec-sub" data-r>NotWhat turns discovery into purchase in one fluid experience.</p>
     </div>
-  </div>
-</section>
-
-<section id="seller" class="sec sec-open">
-  <div class="wrap">
-    <div class="feat-intro"><div><span class="ey" data-r>Seller Experience</span><h2 class="sec-h" data-r>Your craft.<br><em>India's audience.</em></h2></div><p class="sec-sub" data-r>Everything a regional seller needs to go from zero to selling, in minutes.</p></div>
     <div class="feat-grid">
-      <div class="feat-card" data-r><div class="feat-ss"><div class="feat-ss-n">01</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Seller Dashboard Home</div></div><div class="feat-body"><h3>Seller Dashboard</h3><p>A clean command centre showing today's orders, revenue, reel views, and conversion rate at a glance.</p></div></div>
-      <div class="feat-card" data-r data-d="1"><div class="feat-ss"><div class="feat-ss-n">02</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Product Management Screen</div></div><div class="feat-body"><h3>Product Management</h3><p>Add products with photos, size charts, fabric details, and regional origin tags. Inventory tracked automatically.</p></div></div>
-      <div class="feat-card" data-r data-d="2"><div class="feat-ss"><div class="feat-ss-n">03</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Upload Reel Screen</div></div><div class="feat-body"><h3>Upload Reels</h3><p>Film in the app or upload from camera roll. Tag products, set prices, publish. Your reel is live within minutes.</p></div></div>
-      <div class="feat-card" data-r data-d="3"><div class="feat-ss"><div class="feat-ss-n">04</div><div class="feat-ss-lbl">Screenshot</div><div class="feat-ss-sub">Replace with: Order Management Screen</div></div><div class="feat-body"><h3>Order Management</h3><p>Accept, pack, dispatch orders in a simple workflow. Enter tracking once, and NotWhat notifies buyers automatically.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<section id="screenshots" class="sec sec-frosted">
-  <div class="wrap">
-    <div style="margin-bottom:2.5rem"><span class="ey" data-r>App Preview</span><h2 class="sec-h" data-r>Built for the way<br><em>India shops.</em></h2></div>
-    <div class="gallery-outer">
-      <div class="gallery">
-        <div class="pf" data-r><div class="pf-n">01</div><div class="pf-lbl">Screenshot</div><div class="pf-sub">Home / Discovery Feed</div></div>
-        <div class="pf" data-r data-d="1"><div class="pf-n">02</div><div class="pf-lbl">Screenshot</div><div class="pf-sub">Reel Playback + Shop Overlay</div></div>
-        <div class="pf" data-r data-d="2"><div class="pf-n">03</div><div class="pf-lbl">Screenshot</div><div class="pf-sub">Product Detail Page</div></div>
-        <div class="pf" data-r data-d="3"><div class="pf-n">04</div><div class="pf-lbl">Screenshot</div><div class="pf-sub">Seller Storefront</div></div>
-        <div class="pf" data-r data-d="4"><div class="pf-n">05</div><div class="pf-lbl">Screenshot</div><div class="pf-sub">My Orders / Tracking</div></div>
+      <div class="feat-card tilt-card" data-r>
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">01</div>
+            <div class="feat-vis-lbl">Discovery Feed</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Browse and Discover</h3><p>A curated feed of regional fashion reels personalised to your taste. The more you engage, the sharper your feed gets.</p></div>
+      </div>
+      <div class="feat-card tilt-card" data-r data-d="1">
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">02</div>
+            <div class="feat-vis-lbl">Reel Playback</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Shoppable Reels</h3><p>Watch a seller style their garment, tap the price overlay to add to cart, all without pausing the video.</p></div>
+      </div>
+      <div class="feat-card tilt-card" data-r data-d="2">
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">03</div>
+            <div class="feat-vis-lbl">Bargain Days</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Bargain Days</h3><p>Flash sales and limited-time deals from regional sellers in a dedicated tab. Real discounts, never manufactured urgency.</p></div>
+      </div>
+      <div class="feat-card tilt-card" data-r data-d="3">
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">04</div>
+            <div class="feat-vis-lbl">Easy Checkout</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Easy Checkout</h3><p>One address, one payment method, one tap. Secure processing and a tracking link the moment your order ships.</p></div>
       </div>
     </div>
   </div>
 </section>
+
+<div class="gold-line"></div>
+
+<section id="seller" class="sec sec-open">
+  <div class="wrap">
+    <div class="feat-intro">
+      <div>
+        <span class="ey" data-r>Seller Experience</span>
+        <h2 class="sec-h" data-r>Your craft.<br><em>India's audience.</em></h2>
+      </div>
+      <p class="sec-sub" data-r>Everything a regional seller needs to go from zero to selling, in minutes.</p>
+    </div>
+    <div class="feat-grid seller-grid">
+      <div class="feat-card tilt-card" data-r>
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">01</div>
+            <div class="feat-vis-lbl">Dashboard</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Seller Dashboard</h3><p>A clean command centre showing today's orders, revenue, reel views, and conversion rate at a glance.</p></div>
+      </div>
+      <div class="feat-card tilt-card" data-r data-d="1">
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">02</div>
+            <div class="feat-vis-lbl">Products</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Product Management</h3><p>Add products with photos, size charts, fabric details, and regional origin tags. Inventory tracked automatically.</p></div>
+      </div>
+      <div class="feat-card tilt-card" data-r data-d="2">
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">03</div>
+            <div class="feat-vis-lbl">Upload Reels</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Upload Reels</h3><p>Film in the app or upload from camera roll. Tag products, set prices, publish. Your reel is live within minutes.</p></div>
+      </div>
+      <div class="feat-card tilt-card" data-r data-d="3">
+        <div class="feat-vis">
+          <div class="feat-vis-inner">
+            <div class="feat-vis-n">04</div>
+            <div class="feat-vis-lbl">Orders</div>
+          </div>
+        </div>
+        <div class="feat-body"><h3>Order Management</h3><p>Accept, pack, dispatch orders in a simple workflow. Enter tracking once, and NotWhat notifies buyers automatically.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<section id="screenshots" class="sec sec-frosted">
+  <div class="wrap">
+    <div style="margin-bottom:3rem">
+      <span class="ey" data-r>App Preview</span>
+      <h2 class="sec-h" data-r>Built for the way<br><em>India shops.</em></h2>
+    </div>
+    <div class="gallery-outer">
+      <div class="gallery" role="list">
+        <div class="phone-frame" role="listitem" data-r>
+          <div class="phone-frame-screen"><div class="phone-frame-screen-bg"></div></div>
+          <span class="phone-lbl">Discovery Feed</span>
+        </div>
+        <div class="phone-frame" role="listitem" data-r data-d="1">
+          <div class="phone-frame-screen"><div class="phone-frame-screen-bg"></div></div>
+          <span class="phone-lbl">Reel Playback</span>
+        </div>
+        <div class="phone-frame" role="listitem" data-r data-d="2">
+          <div class="phone-frame-screen"><div class="phone-frame-screen-bg"></div></div>
+          <span class="phone-lbl">Product Detail</span>
+        </div>
+        <div class="phone-frame" role="listitem" data-r data-d="3">
+          <div class="phone-frame-screen"><div class="phone-frame-screen-bg"></div></div>
+          <span class="phone-lbl">Seller Store</span>
+        </div>
+        <div class="phone-frame" role="listitem" data-r data-d="4">
+          <div class="phone-frame-screen"><div class="phone-frame-screen-bg"></div></div>
+          <span class="phone-lbl">My Orders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
 
 <section id="contact" class="sec sec-open">
   <div class="wrap">
     <span class="ey" data-r>Contact Us</span>
-    <h2 class="sec-h" style="margin-bottom:3rem" data-r>We would love to<br><em>hear from you.</em></h2>
+    <h2 class="sec-h" style="margin-bottom:3.5rem" data-r>We would love to<br><em>hear from you.</em></h2>
     <div class="contact-grid">
       <div data-r>
         <form class="contact-form" id="cf" novalidate>
-          <div class="fg"><label for="cn">Your Name</label><input type="text" id="cn" name="name" placeholder="Priya Sharma" required autocomplete="name"></div>
-          <div class="fg"><label for="ce">Email Address</label><input type="email" id="ce" name="email" placeholder="priya@example.com" required autocomplete="email"></div>
-          <div class="fg"><label for="cm">Message</label><textarea id="cm" name="message" placeholder="Tell us what is on your mind..." required></textarea></div>
-          <button type="submit" class="btn-send" data-mag>Send Message<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+          <div class="fg">
+            <label for="cn">Your Name</label>
+            <input type="text" id="cn" name="name" placeholder="Priya Sharma" required autocomplete="name">
+          </div>
+          <div class="fg">
+            <label for="ce">Email Address</label>
+            <input type="email" id="ce" name="email" placeholder="priya@example.com" required autocomplete="email">
+          </div>
+          <div class="fg">
+            <label for="cm">Message</label>
+            <textarea id="cm" name="message" placeholder="Tell us what is on your mind..." required></textarea>
+          </div>
+          <button type="submit" class="btn-send" data-mag>
+            Send Message
+            <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
         </form>
       </div>
       <div class="contact-aside" data-r data-d="2">
         <h3>Get in Touch</h3>
         <div class="ci"><span class="ci-l">Email</span><a href="mailto:support@notwhat.in">support@notwhat.in</a></div>
-        <div class="ci"><span class="ci-l">Phone</span><span>Add your phone number here</span></div>
-        <div class="ci"><span class="ci-l">Address</span><span>Add your business address here</span></div>
         <div class="ci"><span class="ci-l">Owner</span><span>Brahmjot Singh Kohli</span></div>
         <div class="ci"><span class="ci-l">Support Hours</span><span>Mon to Sat, 10 AM to 6 PM IST</span></div>
       </div>
@@ -416,275 +590,241 @@ footer{background:rgba(255,253,245,.97);border-top:1px solid var(--border);paddi
 </section>
 
 <section id="privacy" class="legal-sec sec-frosted"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Privacy Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>1. Introduction</h3><p>NotWhat ("we", "our", or "us"), operated by Brahmjot Singh Kohli, is committed to protecting your personal information. This Privacy Policy describes how we collect, use, and share data when you use the NotWhat mobile application and associated website.</p><h3>2. Information We Collect</h3><ul><li>Account information (name, email address, phone number)</li><li>Location data to surface relevant regional sellers and enable accurate delivery</li><li>Device identifiers and usage analytics to improve the app experience</li><li>Payment details processed securely through our payment gateway partners</li><li>User-generated content including reel uploads, product reviews, and messages</li></ul><h3>3. How We Use Your Information</h3><p>Your data is used to operate and improve the NotWhat platform, personalise your discovery feed, process orders, communicate about your account, and comply with applicable Indian law including the Information Technology Act, 2000 and the Digital Personal Data Protection Act, 2023.</p><h3>4. Data Sharing</h3><p>We do not sell your personal data. We share data with third-party service providers only to the extent necessary to operate the platform.</p><h3>5. Your Rights</h3><p>You have the right to access, correct, or request deletion of your personal data. Contact us at support@notwhat.in. We respond within 30 days.</p></div></div></section>
-<section id="terms" class="legal-sec sec-open"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Terms of Service</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>1. Acceptance of Terms</h3><p>By accessing or using the NotWhat application, you agree to be bound by these Terms of Service and our Privacy Policy.</p><h3>2. Eligibility</h3><p>You must be at least 18 years of age to use NotWhat. By registering, you confirm that you meet this requirement and that all information you provide is accurate.</p><h3>3. Buyer Obligations</h3><p>Buyers agree to provide accurate delivery information, complete purchases in good faith, and use the platform solely for lawful personal shopping purposes.</p><h3>4. Seller Obligations</h3><p>Sellers agree to list only products they own or are authorised to sell, accurately describe product condition and regional origin, and dispatch orders within the committed timeline.</p><h3>5. Prohibited Conduct</h3><ul><li>Listing counterfeit, stolen, or prohibited goods</li><li>Manipulating reviews or seller ratings</li><li>Using the platform for money laundering or fraudulent transactions</li><li>Harassing other users, sellers, or NotWhat staff</li></ul><h3>6. Governing Law</h3><p>These Terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in [your city], India.</p></div></div></section>
-<section id="refund" class="legal-sec sec-frosted"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Refund and Cancellation Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>Cancellations</h3><p>Orders may be cancelled within [X hours] of placing the order, provided the seller has not yet dispatched the item. To cancel, go to My Orders in the app and tap Cancel Order.</p><h3>Refunds</h3><p>Refunds are processed to the original payment method within [X business days] of the return being accepted by the seller.</p><h3>Non-Refundable Items</h3><ul><li>Custom or made-to-order garments</li><li>Items marked as Final Sale at the time of purchase</li><li>Items that have been worn, washed, or altered after delivery</li></ul></div></div></section>
-<section id="returns" class="legal-sec sec-open"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Return Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>Return Window</h3><p>Returns are accepted within [X days] of delivery, subject to the individual seller's return policy as displayed on the product page.</p><h3>Conditions for Return</h3><ul><li>Item must be unused, unwashed, and in its original packaging</li><li>All original tags must be intact and attached</li><li>Return request must be raised through the app within the return window</li></ul><h3>Return Process</h3><p>Raise a return request in My Orders. Our logistics partner will schedule a pickup. Once the item is received and inspected, your refund will be processed within [X business days].</p></div></div></section>
-<section id="shipping" class="legal-sec sec-frosted"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Shipping Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>Delivery Timelines</h3><p>Standard delivery within India takes [X to Y business days] depending on the seller's location and your delivery pincode.</p><h3>Shipping Charges</h3><p>Shipping charges are set by individual sellers and displayed on the product page and at checkout. Orders above [amount] may qualify for free shipping where the seller has enabled it.</p><h3>Tracking Your Order</h3><p>Once dispatched, you will receive a tracking link via SMS and push notification. Live tracking is available in My Orders at any time.</p><h3>International Shipping</h3><p>NotWhat currently ships within India only. International availability will be announced when it becomes available.</p></div></div></section>
+<section id="terms" class="legal-sec sec-open"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Terms of Service</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>1. Acceptance of Terms</h3><p>By accessing or using the NotWhat application, you agree to be bound by these Terms of Service and our Privacy Policy.</p><h3>2. Eligibility</h3><p>You must be at least 18 years of age to use NotWhat. By registering, you confirm that you meet this requirement and that all information you provide is accurate.</p><h3>3. Buyer Obligations</h3><p>Buyers agree to provide accurate delivery information, complete purchases in good faith, and use the platform solely for lawful personal shopping purposes.</p><h3>4. Seller Obligations</h3><p>Sellers agree to list only products they own or are authorised to sell, accurately describe product condition and regional origin, and dispatch orders within the committed timeline.</p><h3>5. Prohibited Conduct</h3><ul><li>Listing counterfeit, stolen, or prohibited goods</li><li>Manipulating reviews or seller ratings</li><li>Using the platform for money laundering or fraudulent transactions</li><li>Harassing other users, sellers, or NotWhat staff</li></ul><h3>6. Governing Law</h3><p>These Terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in India.</p></div></div></section>
+<section id="refund" class="legal-sec sec-frosted"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Refund and Cancellation Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>Cancellations</h3><p>Orders may be cancelled within a set window of placing the order, provided the seller has not yet dispatched the item. To cancel, go to My Orders in the app and tap Cancel Order.</p><h3>Refunds</h3><p>Refunds are processed to the original payment method within a specified number of business days of the return being accepted by the seller.</p><h3>Non-Refundable Items</h3><ul><li>Custom or made-to-order garments</li><li>Items marked as Final Sale at the time of purchase</li><li>Items that have been worn, washed, or altered after delivery</li></ul></div></div></section>
+<section id="returns" class="legal-sec sec-open"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Return Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>Return Window</h3><p>Returns are accepted within a specified number of days of delivery, subject to the individual seller's return policy as displayed on the product page.</p><h3>Conditions for Return</h3><ul><li>Item must be unused, unwashed, and in its original packaging</li><li>All original tags must be intact and attached</li><li>Return request must be raised through the app within the return window</li></ul><h3>Return Process</h3><p>Raise a return request in My Orders. Our logistics partner will schedule a pickup. Once the item is received and inspected, your refund will be processed within the specified business days.</p></div></div></section>
+<section id="shipping" class="legal-sec sec-frosted"><div class="wrap"><h2 class="sec-h" style="margin-bottom:.4rem">Shipping Policy</h2><p style="color:var(--fg-d);font-size:var(--tx-sm);margin-bottom:2rem">Last updated: June 2025</p><div class="legal-body"><div class="legal-warn">PLACEHOLDER: Replace with counsel-reviewed text before launch.</div><h3>Delivery Timelines</h3><p>Standard delivery within India takes a variable number of business days depending on the seller's location and your delivery pincode.</p><h3>Shipping Charges</h3><p>Shipping charges are set by individual sellers and displayed on the product page and at checkout. Orders above a threshold amount may qualify for free shipping where the seller has enabled it.</p><h3>Tracking Your Order</h3><p>Once dispatched, you will receive a tracking link via SMS and push notification. Live tracking is available in My Orders at any time.</p><h3>International Shipping</h3><p>NotWhat currently ships within India only. International availability will be announced when it becomes available.</p></div></div></section>
 
 <footer>
   <div class="wrap">
     <div class="footer-grid">
-      <div class="footer-brand"><div class="footer-logo"><div class="footer-lm">NW</div>NotWhat</div><p>Discover regional Indian fashion through shoppable video reels. Coming Soon on iOS.</p><a href="mailto:support@notwhat.in" class="footer-mail">support@notwhat.in</a></div>
+      <div class="footer-brand">
+        <div class="footer-logo"><div class="footer-lm">NW</div>NotWhat</div>
+        <p>Discover regional Indian fashion through shoppable video reels. Coming Soon on iOS.</p>
+        <a href="mailto:support@notwhat.in" class="footer-mail">support@notwhat.in</a>
+      </div>
       <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#how-it-works">How It Works</a></li><li><a href="#buyer">Buyers</a></li><li><a href="#seller">Sellers</a></li><li><a href="#screenshots">App Preview</a></li><li><a href="#contact">Contact</a></li></ul></div>
       <div class="footer-col"><h4>Legal</h4><ul><li><a href="#privacy">Privacy Policy</a></li><li><a href="#terms">Terms of Service</a></li><li><a href="#refund">Refund Policy</a></li><li><a href="#returns">Return Policy</a></li><li><a href="#shipping">Shipping Policy</a></li></ul></div>
       <div class="footer-col"><h4>Company</h4><ul><li><a href="#about">Our Story</a></li><li><a href="#seller">Sell on NotWhat</a></li><li><a href="#contact">Partnerships</a></li><li><a href="mailto:support@notwhat.in">Support</a></li></ul></div>
     </div>
     <hr class="footer-div">
-    <div class="footer-bot"><p>&copy; 2025 NotWhat. All rights reserved.</p><p>Made with care for India's regional artisans.</p></div>
+    <div class="footer-bot">
+      <p>&copy; 2025 NotWhat. All rights reserved.</p>
+      <p>Made with care for India's regional artisans.</p>
+    </div>
   </div>
 </footer>
-</div>
+
+</div><!-- /page-content -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* ── CURSOR ── */
 const $cd=document.getElementById('cd'),$cr=document.getElementById('cr');
 let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-const noTouch=window.matchMedia('(hover:hover)').matches;
-if(noTouch){
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;$cd.style.left=mx+'px';$cd.style.top=my+'px';});
-  (function cl(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;$cr.style.left=rx+'px';$cr.style.top=ry+'px';requestAnimationFrame(cl);})();
+const hasPointer=window.matchMedia('(hover:hover)').matches;
+if(hasPointer){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;$cd.style.left=mx+'px';$cd.style.top=my+'px';},{passive:true});
+  (function cl(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;$cr.style.left=rx+'px';$cr.style.top=ry+'px';requestAnimationFrame(cl);})();
 }else{$cd.style.display='none';$cr.style.display='none';}
 
-/* ── HERO WORD REVEAL ── */
+/* ── HERO REVEAL ── */
 (function(){
-  const words=document.querySelectorAll('.hero-title .word');
+  const words=document.querySelectorAll('#htitle .word');
+  const rule=document.getElementById('hrule');
   const sub=document.getElementById('hsub');
   const badge=document.getElementById('hbadge');
-  // Use Web Animations API for snappy spring-like reveals
-  function revealWord(el,delay){
-    el.animate([
-      {opacity:0,transform:'translateY(100%)'},
-      {opacity:1,transform:'translateY(0)'}
-    ],{duration:900,delay,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'});
-  }
-  words.forEach((w,i)=>revealWord(w,80+i*150));
-  sub.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],
-    {duration:700,delay:550,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'});
-  badge.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],
-    {duration:600,delay:900,easing:'cubic-bezier(.16,1,.3,1)',fill:'forwards'});
+  const ease='cubic-bezier(.16,1,.3,1)';
+  words.forEach((w,i)=>w.animate([{opacity:0,transform:'translateY(110%)'},{opacity:1,transform:'translateY(0)'}],{duration:900,delay:60+i*160,easing:ease,fill:'forwards'}));
+  rule.animate([{opacity:0,transform:'scaleX(0)'},{opacity:1,transform:'scaleX(1)'}],{duration:700,delay:560,easing:ease,fill:'forwards'});
+  sub.animate([{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:700,delay:620,easing:ease,fill:'forwards'});
+  badge.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:600,delay:900,easing:ease,fill:'forwards'});
 })();
 
-/* ── THREE.JS FULL-PAGE BACKGROUND ── */
+/* ── THREE.JS SCENE ── */
 (function(){
   if(typeof THREE==='undefined')return;
-
   const cv=document.getElementById('bg-canvas');
   let W=innerWidth,H=innerHeight;
   const mob=()=>W<960;
 
-  /* Renderer — optimized */
-  const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:!mob(),alpha:false,powerPreference:'high-performance'});
+  const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:!mob(),alpha:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,mob()?1.5:2));
   renderer.setSize(W,H);
-  renderer.setClearColor(0xFFFDF5,1);
+  renderer.setClearColor(0x000000,0);
+  renderer.toneMapping=THREE.LinearToneMapping;
+  renderer.toneMappingExposure=1.0;
+  renderer.shadowMap.enabled=false;
 
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(mob()?62:52,W/H,.1,100);
-  camera.position.set(0,.1,5.5);
+  const camera=new THREE.PerspectiveCamera(mob()?65:52,W/H,.1,120);
+  camera.position.set(0,0,6.5);
 
-  /* Warm lighting */
-  scene.add(new THREE.AmbientLight(0xFFFBE0,1.2));
-  const dL=new THREE.DirectionalLight(0xFFE880,.7);dL.position.set(4,5,3);scene.add(dL);
-  const pL=new THREE.PointLight(0xE8A800,3,12);pL.position.set(4,1,3.5);scene.add(pL);
-  const rimL=new THREE.DirectionalLight(0xFFCC33,.25);rimL.position.set(-3,-1,-2);scene.add(rimL);
+  /* ENV MAP — synthetic studio */
+  (function(){
+    const pmrem=new THREE.PMREMGenerator(renderer);
+    pmrem.compileEquirectangularShader();
+    const ec=document.createElement('canvas');ec.width=512;ec.height=256;
+    const ex=ec.getContext('2d');
+    const g=ex.createLinearGradient(0,0,0,256);
+    g.addColorStop(0,'#FFFCE8');g.addColorStop(.4,'#E8D8A0');g.addColorStop(1,'#1A0E00');
+    ex.fillStyle=g;ex.fillRect(0,0,512,256);
+    const spot=ex.createRadialGradient(380,30,0,380,30,120);
+    spot.addColorStop(0,'rgba(255,248,200,.98)');spot.addColorStop(1,'rgba(255,248,200,0)');
+    ex.fillStyle=spot;ex.fillRect(0,0,512,256);
+    const spot2=ex.createRadialGradient(80,200,0,80,200,90);
+    spot2.addColorStop(0,'rgba(200,160,60,.4)');spot2.addColorStop(1,'rgba(200,160,60,0)');
+    ex.fillStyle=spot2;ex.fillRect(0,0,512,256);
+    const et=new THREE.CanvasTexture(ec);
+    et.mapping=THREE.EquirectangularReflectionMapping;
+    scene.environment=pmrem.fromEquirectangular(et).texture;
+    et.dispose();pmrem.dispose();
+  })();
 
-  /* ── SCREEN TEXTURE ── */
-  const SC=document.createElement('canvas');SC.width=512;SC.height=1024;
-  const SX=SC.getContext('2d');
-  const stex=new THREE.CanvasTexture(SC);
-  let rphase=0,frame=0;
+  /* LIGHTING */
+  scene.add(new THREE.AmbientLight(0xFFF8E8,1.2));
+  const kL=new THREE.DirectionalLight(0xFFE0A0,2.8);kL.position.set(6,8,5);scene.add(kL);
+  const pL=new THREE.PointLight(0xE8A800,8.0,20);pL.position.set(3.5,2.5,5);scene.add(pL);
+  const fL=new THREE.PointLight(0xF0C040,4.0,16);fL.position.set(-4,-2,2);scene.add(fL);
+  const bL=new THREE.DirectionalLight(0xFFCC44,1.8);bL.position.set(-3,4,-5);scene.add(bL);
 
-  function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();}
+  /* GOLD MATERIAL */
+  const goldMat=new THREE.MeshStandardMaterial({color:0xC87800,metalness:.85,roughness:.18,envMapIntensity:1.2});
+  const gemMat=new THREE.MeshStandardMaterial({color:0xE8A200,metalness:.80,roughness:.22,envMapIntensity:1.0});
+  const paleMat=new THREE.MeshStandardMaterial({color:0xF0C040,metalness:.75,roughness:.28,envMapIntensity:.9});
 
-  function drawA(c,a){
-    if(a<.01)return;c.save();c.globalAlpha=a;
-    const G=c.createLinearGradient(0,0,0,1024);G.addColorStop(0,'#180307');G.addColorStop(.44,'#5A0A18');G.addColorStop(1,'#0A0102');
-    c.fillStyle=G;c.fillRect(0,0,512,1024);
-    c.fillStyle='#7A0F1E';c.beginPath();c.ellipse(256,224,95,74,0,0,Math.PI*2);c.fill();
-    c.strokeStyle='#E8A800';c.lineWidth=2.5;c.beginPath();c.ellipse(256,190,50,27,0,0,Math.PI);c.stroke();
-    c.fillStyle='#E8A800';c.globalAlpha=a*.7;c.fillRect(158,288,198,5);c.globalAlpha=a;
-    c.fillStyle='#5A0A14';c.beginPath();c.moveTo(80,296);c.lineTo(432,296);c.lineTo(477,674);c.lineTo(35,674);c.closePath();c.fill();
-    c.fillStyle='#E8A800';
-    [[.34,.42,5],[.44,.4,3.8],[.54,.43,5],[.64,.41,3.8],[.71,.43,4.8],[.38,.49,3.2],[.5,.51,5],[.62,.48,3.2]].forEach(([dx,dy,dr])=>{c.beginPath();c.arc(512*dx,1024*dy,dr,0,Math.PI*2);c.fill();});
-    c.fillStyle='#E8A800';c.globalAlpha=a*.5;c.fillRect(36,637,439,8);c.restore();
-  }
+  /* TORUS KNOT — hero centrepiece */
+  const tkGeo=new THREE.TorusKnotGeometry(1.05,.32,220,28,2,3);
+  const tk=new THREE.Mesh(tkGeo,goldMat);
+  scene.add(tk);
 
-  function drawB(c,a){
-    if(a<.01)return;c.save();c.globalAlpha=a;
-    const G=c.createLinearGradient(0,0,0,1024);G.addColorStop(0,'#010808');G.addColorStop(.44,'#063535');G.addColorStop(1,'#000404');
-    c.fillStyle=G;c.fillRect(0,0,512,1024);
-    c.fillStyle='#094E4E';c.fillRect(168,143,176,153);
-    c.strokeStyle='#E8A800';c.lineWidth=2;c.beginPath();c.ellipse(256,168,43,22,0,0,Math.PI);c.stroke();
-    c.fillStyle='#E8A800';c.globalAlpha=a*.6;c.fillRect(168,296,176,5);c.globalAlpha=a;
-    c.fillStyle='#063C3C';c.beginPath();c.ellipse(256,481,194,225,0,0,Math.PI*2);c.fill();
-    c.fillStyle='#A0F0E8';c.globalAlpha=a*.45;
-    [[.34,.44,3.8],[.45,.42,2.8],[.56,.44,3.8],[.65,.42,2.8],[.38,.5,3.2],[.5,.52,4.2],[.62,.5,3.2]].forEach(([dx,dy,dr])=>{c.beginPath();c.arc(512*dx,1024*dy,dr,0,Math.PI*2);c.fill();});
-    c.fillStyle='#E8A800';c.globalAlpha=a*.4;c.fillRect(41,693,430,7);c.restore();
-  }
-
-  function drawUI(c){
-    const bf=c.createLinearGradient(0,512,0,1024);bf.addColorStop(0,'rgba(0,0,0,0)');bf.addColorStop(.52,'rgba(0,0,0,0)');bf.addColorStop(1,'rgba(2,0,0,.96)');
-    c.fillStyle=bf;c.fillRect(0,0,512,1024);
-    const tf=c.createLinearGradient(0,0,0,120);tf.addColorStop(0,'rgba(0,0,0,.45)');tf.addColorStop(1,'rgba(0,0,0,0)');
-    c.fillStyle=tf;c.fillRect(0,0,512,120);
-    /* Dynamic Island */
-    c.fillStyle='#000';rr(c,203,17,106,28,14);c.fill();
-    /* Action buttons */
-    const bx=448;
-    [[621,28,'♡','1.4k'],[700,27,'●','138'],[778,27,'↗','Share']].forEach(([by,br,ic,lb])=>{
-      c.fillStyle='rgba(0,0,0,.28)';c.beginPath();c.arc(bx,by,br,0,Math.PI*2);c.fill();
-      c.fillStyle='rgba(255,255,255,.85)';c.font='21px Arial';c.textAlign='center';c.fillText(ic,bx,by+7);
-      c.fillStyle='rgba(255,255,255,.48)';c.font='600 15px Helvetica Neue,Arial';c.fillText(lb,bx,by+29);
-    });
-    c.textAlign='left';
-    c.fillStyle='rgba(255,255,255,.68)';c.font='italic 19px Georgia,serif';c.fillText('@rajasthani_threads',36,808);
-    c.fillStyle='rgba(255,255,255,.96)';c.font='500 29px Georgia,serif';c.fillText('Bandhani Silk Dupatta',36,840);
-    c.fillStyle='rgba(255,255,255,.44)';c.font='300 16px Helvetica Neue,Arial';c.fillText('Jaipur, Rajasthan',36,861);
-    c.fillStyle='#E8A800';rr(c,36,878,152,42,3);c.fill();
-    c.fillStyle='#1C1400';c.font='700 23px Helvetica Neue,Arial';c.textAlign='center';c.fillText('Rs. 1,299',112,904);
-    c.textAlign='left';c.strokeStyle='#E8A800';c.lineWidth=1.5;rr(c,200,878,139,42,3);c.stroke();
-    c.fillStyle='#E8A800';c.font='500 21px Helvetica Neue,Arial';c.textAlign='center';c.fillText('Shop Now',270,904);
-    c.textAlign='left';
-    c.fillStyle='rgba(28,20,0,.1)';c.fillRect(36,964,440,3);
-    c.fillStyle='#E8A800';c.globalAlpha=.8;c.fillRect(36,964,440*((rphase%4)/4),3);c.globalAlpha=1;
-  }
-
-  function updateTex(){
-    rphase+=.0025;
-    const p=rphase%4;
-    let aA,aB;
-    if(p<1.5){aA=1;aB=0;}
-    else if(p<2){const t=(p-1.5)/.5;aA=1-t;aB=t;}
-    else if(p<3.5){aA=0;aB=1;}
-    else{const t=(p-3.5)/.5;aA=t;aB=1-t;}
-    SX.clearRect(0,0,512,1024);
-    drawA(SX,aA);drawB(SX,aB);drawUI(SX);
-    stex.needsUpdate=true;
-  }
-
-  /* ── PHONE MODEL — rounded via ExtrudeGeometry ── */
-  const pg=new THREE.Group();
-
-  function makePhoneBody(){
-    const w=.74,h=1.51,r=.11;
-    const sh=new THREE.Shape();
-    sh.moveTo(-w+r,-h);sh.lineTo(w-r,-h);sh.quadraticCurveTo(w,-h,w,-h+r);
-    sh.lineTo(w,h-r);sh.quadraticCurveTo(w,h,w-r,h);
-    sh.lineTo(-w+r,h);sh.quadraticCurveTo(-w,h,-w,h-r);
-    sh.lineTo(-w,-h+r);sh.quadraticCurveTo(-w,-h,-w+r,-h);
-    const geo=new THREE.ExtrudeGeometry(sh,{depth:.1,bevelEnabled:true,bevelThickness:.016,bevelSize:.016,bevelSegments:3});
-    geo.center();return geo;
-  }
-
-  const bodyM=new THREE.MeshStandardMaterial({color:0x181000,metalness:.85,roughness:.12});
-  pg.add(new THREE.Mesh(makePhoneBody(),bodyM));
-
-  /* Screen bezel */
-  const bezelM=new THREE.MeshBasicMaterial({color:0xE8A800,transparent:true,opacity:.12});
-  const bz=new THREE.Mesh(new THREE.PlaneGeometry(1.3,2.6),bezelM);
-  bz.position.z=.065;pg.add(bz);
-
-  /* Screen */
-  const scrM=new THREE.Mesh(new THREE.PlaneGeometry(1.24,2.5),new THREE.MeshBasicMaterial({map:stex}));
-  scrM.position.z=.068;pg.add(scrM);
-
-  /* Home bar */
-  const hbr=new THREE.Mesh(new THREE.BoxGeometry(.38,.02,.004),new THREE.MeshBasicMaterial({color:0xE8A800,transparent:true,opacity:.3}));
-  hbr.position.set(0,-1.19,.072);pg.add(hbr);
-
-  /* Side buttons */
-  [[.77,.26,-.04],[.77,-.18,-.04],[-.77,.18,-.04]].forEach(([bx,by,bz])=>{
-    const b=new THREE.Mesh(new THREE.BoxGeometry(.008,.11,.055),new THREE.MeshStandardMaterial({color:0x222000,metalness:.9,roughness:.1}));
-    b.position.set(bx,by,bz);pg.add(b);
+  /* ORBITING GEMS */
+  const gemDefs=[
+    {G:new THREE.OctahedronGeometry(.2,0),d:2.4,sp:1.0,ph:0,ax:[1,0,1]},
+    {G:new THREE.IcosahedronGeometry(.15,0),d:3.0,sp:.65,ph:2.1,ax:[1,1,0]},
+    {G:new THREE.OctahedronGeometry(.13,0),d:3.3,sp:.88,ph:4.2,ax:[0,1,1]},
+    {G:new THREE.IcosahedronGeometry(.18,0),d:2.7,sp:1.25,ph:1.0,ax:[1,0,1]},
+    {G:new THREE.OctahedronGeometry(.11,0),d:3.6,sp:.55,ph:3.5,ax:[1,1,0]},
+    {G:new THREE.IcosahedronGeometry(.16,0),d:2.1,sp:1.45,ph:5.2,ax:[0,1,1]},
+    {G:new THREE.OctahedronGeometry(.09,0),d:4.0,sp:.75,ph:0.7,ax:[1,0,1]},
+    {G:new THREE.IcosahedronGeometry(.12,0),d:2.9,sp:1.1,ph:2.8,ax:[1,1,0]},
+  ];
+  const gems=gemDefs.map(def=>{
+    const m=new THREE.Mesh(def.G,def===gemDefs[0]||def===gemDefs[3]?gemMat:paleMat);
+    m._d=def;scene.add(m);return m;
   });
 
-  /* Glow */
+  /* RINGS */
+  const ringMats=[
+    new THREE.MeshBasicMaterial({color:0xE8A800,transparent:true,opacity:.24}),
+    new THREE.MeshBasicMaterial({color:0xF0C040,transparent:true,opacity:.14}),
+    new THREE.MeshBasicMaterial({color:0xE8A800,transparent:true,opacity:.08}),
+  ];
+  const rings=[
+    new THREE.Mesh(new THREE.TorusGeometry(1.9,.013,6,96),ringMats[0]),
+    new THREE.Mesh(new THREE.TorusGeometry(2.55,.009,6,96),ringMats[1]),
+    new THREE.Mesh(new THREE.TorusGeometry(3.15,.006,6,96),ringMats[2]),
+  ];
+  rings[0].rotation.set(1.15,.28,0);
+  rings[1].rotation.set(.2,0,.68);
+  rings[2].rotation.set(.6,0,-.45);
+  rings.forEach(r=>scene.add(r));
+
+  /* AMBIENT GLOW PLANE */
   const gc=document.createElement('canvas');gc.width=gc.height=256;
   const gx=gc.getContext('2d');
   const gg=gx.createRadialGradient(128,128,0,128,128,128);
-  gg.addColorStop(0,'rgba(232,168,0,.3)');gg.addColorStop(.45,'rgba(240,190,0,.08)');gg.addColorStop(1,'rgba(232,168,0,0)');
+  gg.addColorStop(0,'rgba(232,168,0,.28)');gg.addColorStop(.5,'rgba(232,168,0,.07)');gg.addColorStop(1,'rgba(232,168,0,0)');
   gx.fillStyle=gg;gx.fillRect(0,0,256,256);
-  const glP=new THREE.Mesh(new THREE.PlaneGeometry(5.5,5.5),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(gc),transparent:true,depthWrite:false}));
-  glP.position.z=-.55;pg.add(glP);
+  const glowPlane=new THREE.Mesh(
+    new THREE.PlaneGeometry(6,6),
+    new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(gc),transparent:true,depthWrite:false})
+  );
+  glowPlane.position.z=-.8;scene.add(glowPlane);
 
-  /* Rings */
-  const r1=new THREE.Mesh(new THREE.TorusGeometry(1.68,.014,6,80),new THREE.MeshBasicMaterial({color:0xE8A800,transparent:true,opacity:.32}));
-  r1.rotation.x=1.1;r1.rotation.y=.28;pg.add(r1);
-  const r2=new THREE.Mesh(new THREE.TorusGeometry(2.2,.009,6,80),new THREE.MeshBasicMaterial({color:0xF0C040,transparent:true,opacity:.16}));
-  r2.rotation.x=.2;r2.rotation.z=.65;pg.add(r2);
-  const r3=new THREE.Mesh(new THREE.TorusGeometry(2.72,.006,6,80),new THREE.MeshBasicMaterial({color:0xE8A800,transparent:true,opacity:.07}));
-  r3.rotation.x=.55;r3.rotation.z=-.42;pg.add(r3);
-
-  /* Floating diamonds — MeshBasicMaterial (cheap) */
-  const dM=new THREE.MeshBasicMaterial({color:0xE8C000,transparent:true,opacity:.11,wireframe:false});
-  const floaters=[];
-  [[3,.7,-1],[-2.2,1.4,-.7],[3.2,-1.1,-1.3],[-2.8,-.4,-.9],[1.6,2,-1.8],[-1.3,-1.8,-.5]].forEach(([fx,fy,fz])=>{
-    const f=new THREE.Mesh(new THREE.OctahedronGeometry(.15,0),dM);
-    f.position.set(fx,fy,fz);f._ph=Math.random()*Math.PI*2;
-    scene.add(f);floaters.push(f);
-  });
-
-  /* Particles — fewer, faster */
-  const pcnt=mob()?70:200;
+  /* PARTICLES */
+  const pcnt=mob()?120:340;
   const pp=new Float32Array(pcnt*3);
-  for(let i=0;i<pcnt;i++){pp[i*3]=(Math.random()-.5)*20;pp[i*3+1]=(Math.random()-.5)*13;pp[i*3+2]=(Math.random()-.5)*9;}
+  for(let i=0;i<pcnt;i++){pp[i*3]=(Math.random()-.5)*22;pp[i*3+1]=(Math.random()-.5)*16;pp[i*3+2]=(Math.random()-.5)*10;}
   const pts=new THREE.Points(
     new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(pp,3)),
-    new THREE.PointsMaterial({color:0xE8A800,size:mob()?.018:.02,transparent:true,opacity:.42})
-  );scene.add(pts);
+    new THREE.PointsMaterial({color:0xE8A800,size:mob()?.02:.025,transparent:true,opacity:.38})
+  );
+  scene.add(pts);
 
-  const bX=()=>mob()?0:2.05;
-  pg.position.set(bX(),mob()?1.2:0,0);
-  scene.add(pg);
+  /* SECONDARY SMALL PARTICLES */
+  const pcnt2=mob()?40:120;
+  const pp2=new Float32Array(pcnt2*3);
+  for(let i=0;i<pcnt2;i++){pp2[i*3]=(Math.random()-.5)*14;pp2[i*3+1]=(Math.random()-.5)*10;pp2[i*3+2]=(Math.random()-.5)*6;}
+  const pts2=new THREE.Points(
+    new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(pp2,3)),
+    new THREE.PointsMaterial({color:0xF0C040,size:mob()?.035:.045,transparent:true,opacity:.22})
+  );
+  scene.add(pts2);
 
-  /* ── SCROLL / MOUSE ── */
+  /* HERO GROUP — torus knot + rings + glow positioned together */
+  const hg=new THREE.Group();
+  /* Move tk, rings, glowPlane into group for unified scroll control */
+  scene.remove(tk);rings.forEach(r=>scene.remove(r));scene.remove(glowPlane);
+  hg.add(tk);rings.forEach(r=>hg.add(r));hg.add(glowPlane);
+  hg.position.set(mob()?0:2.2,mob()?1.0:0,0);
+  scene.add(hg);
+
+  /* SCROLL + MOUSE */
   let sP=0,cmx=0,cmy=0;
   const tH=()=>Math.max(document.documentElement.scrollHeight-innerHeight,1);
-  window.addEventListener('scroll',()=>sP=Math.min(Math.max(scrollY/tH(),0),1),{passive:true});
+  window.addEventListener('scroll',()=>{sP=Math.min(Math.max(scrollY/tH(),0),1);},{passive:true});
   document.addEventListener('mousemove',e=>{cmx=(e.clientX/W-.5)*2;cmy=(e.clientY/H-.5)*-2;},{passive:true});
 
-  /* ── ANIMATE ── */
+  /* ANIMATE */
+  let frame=0;
   function animate(ts){
     requestAnimationFrame(animate);
     frame++;
-    /* Update texture every 2 frames — halves canvas draw cost */
-    if(frame%2===0)updateTex();
-
     const t=ts*.001;
-    const bx=bX();
-    /* Scroll-driven phone motion across full page */
-    const tX=bx - sP*4.8;
-    const tY=(mob()?1.2:0)+sP*3.2;
-    const tZ=-sP*1.6;
-    const tRY=(mob()?0:-.25)+sP*Math.PI*1.8;
-    const tRX=.06-sP*.42;
-    const tSc=1-sP*.28;
-    const k=.052;
-    pg.position.x+=(tX-pg.position.x)*k;
-    pg.position.y+=(tY-pg.position.y)*k;
-    pg.position.z+=(tZ-pg.position.z)*k;
-    pg.rotation.y+=(tRY-pg.rotation.y)*k;
-    pg.rotation.x+=(tRX-pg.rotation.x)*k;
-    pg.scale.x+=(tSc-pg.scale.x)*k;
-    pg.scale.y=pg.scale.x;pg.scale.z=pg.scale.x;
+    const bx=mob()?0:2.2;
+
+    /* Torus knot spin */
+    tk.rotation.x=t*.28;tk.rotation.y=t*.42;tk.rotation.z=t*.14;
+
+    /* Scroll-driven hero group motion */
+    const tx=bx-sP*5.5,ty=(mob()?1.0:0)+sP*3.8,tz=-sP*2.0;
+    const k=.048;
+    hg.position.x+=(tx-hg.position.x)*k;
+    hg.position.y+=(ty-hg.position.y)*k;
+    hg.position.z+=(tz-hg.position.z)*k;
+    const ts2=1-sP*.32;
+    hg.scale.x+=(ts2-hg.scale.x)*k;
+    hg.scale.y=hg.scale.x;hg.scale.z=hg.scale.x;
 
     /* Rings */
-    r1.rotation.z+=.005;r2.rotation.z-=.0032;r3.rotation.z+=.0018;r2.rotation.y+=.0015;
+    rings[0].rotation.z+=.0045;rings[1].rotation.z-=.003;rings[2].rotation.z+=.002;
+    rings[1].rotation.y+=.0018;rings[2].rotation.x+=.001;
 
-    /* Floaters */
-    floaters.forEach(f=>{f.rotation.y+=.009;f.rotation.x+=.006;f.position.y+=Math.sin(t*1.2+f._ph)*.0007;});
+    /* Gems orbit */
+    gems.forEach(gem=>{
+      const d=gem._d,angle=t*d.sp+d.ph;
+      const ax=d.ax;
+      gem.position.set(
+        Math.cos(angle)*d.d*ax[0]+Math.sin(angle*.4)*d.d*.3*(1-ax[0]),
+        Math.sin(angle)*d.d*ax[1]+Math.cos(angle*.5)*d.d*.2*(1-ax[1]),
+        Math.sin(angle*.7)*d.d*.6*ax[2]+Math.cos(angle*.3)*d.d*.2*(1-ax[2])
+      );
+      gem.position.x+=hg.position.x;
+      gem.position.y+=hg.position.y;
+      gem.position.z+=hg.position.z;
+      gem.rotation.x+=.012;gem.rotation.y+=.018;
+    });
 
-    /* Particles */
-    pts.rotation.y+=.0003;
-    pts.position.y+=(sP*.8-pts.position.y)*.028;
-    pts.position.x+=(-sP*1.2-pts.position.x)*.022;
+    /* Particles drift */
+    pts.rotation.y+=.0003;pts.position.y+=(sP*.9-pts.position.y)*.025;pts.position.x+=(-sP*1.4-pts.position.x)*.02;
+    pts2.rotation.x+=.0002;pts2.rotation.y-=.0004;
 
-    /* Camera parallax — scales down with scroll */
-    const inf=Math.max(1-sP*.6,0);
-    camera.position.x+=(cmx*.25*inf-camera.position.x)*.045;
-    camera.position.y+=(cmy*.16*inf-camera.position.y)*.045;
-    camera.lookAt(bx-sP*2.2,sP*.35,0);
+    /* Camera parallax */
+    const inf=Math.max(1-sP*.7,0);
+    camera.position.x+=(cmx*.28*inf-camera.position.x)*.042;
+    camera.position.y+=(cmy*.18*inf-camera.position.y)*.042;
+    camera.lookAt(bx*(.5-sP*.4),sP*.3,0);
 
     renderer.render(scene,camera);
   }
@@ -692,44 +832,43 @@ if(noTouch){
 
   window.addEventListener('resize',()=>{
     W=innerWidth;H=innerHeight;
-    camera.aspect=W/H;camera.fov=mob()?62:52;camera.updateProjectionMatrix();
+    camera.aspect=W/H;camera.fov=mob()?65:52;camera.updateProjectionMatrix();
     renderer.setPixelRatio(Math.min(devicePixelRatio,mob()?1.5:2));
     renderer.setSize(W,H);
-    pg.position.x=bX();pg.position.y=mob()?1.2:0;
+    hg.position.x=mob()?0:2.2;hg.position.y=mob()?1.0:0;
   },{passive:true});
 })();
 
 /* ── SCROLL REVEAL ── */
 const ro=new IntersectionObserver(
-  e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('on');}),
-  {threshold:.08,rootMargin:'0px 0px -36px 0px'}
+  es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');}),
+  {threshold:.08,rootMargin:'0px 0px -40px 0px'}
 );
 document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
 
 /* ── COUNTERS ── */
-const co=new IntersectionObserver(e=>{
-  e.forEach(x=>{
-    if(!x.isIntersecting)return;
-    const el=x.target,tgt=parseInt(el.dataset.count),sfx=el.dataset.suffix||'';
+const co=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,tgt=parseInt(el.dataset.count),sfx=el.dataset.suffix||'';
     if(!tgt)return;
-    const dur=1400,t0=performance.now();
-    const ease=t=>1-Math.pow(1-t,3);
+    const dur=1600,t0=performance.now(),ease=p=>1-Math.pow(1-p,3);
     (function tick(now){const p=Math.min((now-t0)/dur,1);el.textContent=Math.round(ease(p)*tgt)+sfx;if(p<1)requestAnimationFrame(tick);})(t0);
     co.unobserve(el);
   });
-},{threshold:.65});
+},{threshold:.7});
 document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
 
-/* ── NAV ── */
+/* ── NAV SCROLL ── */
 const $nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>$nav.classList.toggle('on',scrollY>28),{passive:true});
+window.addEventListener('scroll',()=>$nav.classList.toggle('on',scrollY>30),{passive:true});
 
 /* ── HAMBURGER ── */
 const $hbg=document.getElementById('hbg'),$mob=document.getElementById('mobmenu');
 $hbg.addEventListener('click',()=>{
   const o=$hbg.classList.toggle('open');
   $mob.classList.toggle('open',o);
-  $hbg.setAttribute('aria-expanded',o);
+  $hbg.setAttribute('aria-expanded',String(o));
   document.body.style.overflow=o?'hidden':'';
 });
 document.querySelectorAll('.mlink').forEach(a=>a.addEventListener('click',()=>{
@@ -749,45 +888,47 @@ document.getElementById('cf').addEventListener('submit',e=>{
     +'&body='+encodeURIComponent('Name: '+n+'\nEmail: '+em+'\n\nMessage:\n'+m);
 });
 
-/* ── MAGNETIC SEND BUTTON ── */
+/* ── MAGNETIC BUTTON ── */
 document.querySelectorAll('[data-mag]').forEach(el=>{
   el.addEventListener('mousemove',e=>{
     const r=el.getBoundingClientRect();
-    el.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.26}px,${(e.clientY-r.top-r.height/2)*.26}px)`;
+    el.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;
   });
   el.addEventListener('mouseleave',()=>{
-    el.style.transition='transform .5s cubic-bezier(.16,1,.3,1)';
+    el.style.transition='transform .55s cubic-bezier(.16,1,.3,1)';
     el.style.transform='';
-    setTimeout(()=>el.style.transition='',500);
+    setTimeout(()=>el.style.transition='',560);
   });
 });
 
 /* ── 3D CARD TILT ── */
-function tilt(sel,deg){
+function applyTilt(sel,deg){
   document.querySelectorAll(sel).forEach(el=>{
-    el.style.willChange='transform';
     el.addEventListener('mousemove',e=>{
       const r=el.getBoundingClientRect();
       const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
       el.style.transition='transform .06s ease';
-      el.style.transform=`perspective(800px) rotateY(${x*deg}deg) rotateX(${-y*deg}deg) translateZ(8px)`;
+      el.style.transform=`perspective(900px) rotateY(${x*deg}deg) rotateX(${-y*deg}deg) translateZ(6px)`;
     });
     el.addEventListener('mouseleave',()=>{
-      el.style.transition='transform .5s cubic-bezier(.16,1,.3,1)';
+      el.style.transition='transform .55s cubic-bezier(.16,1,.3,1)';
       el.style.transform='';
     });
   });
 }
-tilt('.feat-card',9);tilt('.step',7);tilt('.pf',11);tilt('.stat',13);
+applyTilt('.feat-card',8);
+applyTilt('.step',6);
+applyTilt('.phone-frame',10);
+applyTilt('.stat',12);
 
 /* ── GALLERY DRAG ── */
 (function(){
   const g=document.querySelector('.gallery');
   if(!g)return;
-  let down=false,sx=0,sl=0;
-  g.addEventListener('mousedown',e=>{down=true;sx=e.pageX-g.offsetLeft;sl=g.scrollLeft;});
-  g.addEventListener('mousemove',e=>{if(!down)return;g.scrollLeft=sl-(e.pageX-g.offsetLeft-sx);});
-  ['mouseup','mouseleave'].forEach(ev=>g.addEventListener(ev,()=>{down=false;}));
+  let dn=false,sx=0,sl=0;
+  g.addEventListener('mousedown',e=>{dn=true;sx=e.pageX-g.offsetLeft;sl=g.scrollLeft;g.style.cursor='grabbing';});
+  g.addEventListener('mousemove',e=>{if(!dn)return;g.scrollLeft=sl-(e.pageX-g.offsetLeft-sx);});
+  ['mouseup','mouseleave'].forEach(ev=>g.addEventListener(ev,()=>{dn=false;g.style.cursor='grab';}));
 })();
 </script>
 </body>
